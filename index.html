@@ -11,22 +11,18 @@
         .container { width: 90%; max-width: 400px; text-align: center; }
         .wood-panel { background: var(--paper); color: #333; padding: 30px 20px; border-radius: 25px; border: 8px double #8b5e34; box-shadow: 0 0 50px rgba(0,0,0,0.8); }
         h1 { color: var(--red); font-size: 24px; text-transform: uppercase; margin: 10px 0; }
-        input[type="date"] { width: 80%; padding: 15px; border-radius: 15px; border: 3px solid #8b5e34; font-size: 20px; font-weight: bold; margin: 20px 0; }
+        input[type="date"] { width: 80%; padding: 15px; border-radius: 15px; border: 3px solid #8b5e34; font-size: 20px; font-weight: bold; margin: 20px 0; background: white; }
         .btn-gieo { background: var(--red); color: white; border: none; padding: 18px; border-radius: 50px; font-weight: bold; width: 100%; cursor: pointer; font-size: 20px; box-shadow: 0 6px 0 #5f0f11; }
         .btn-gieo:active { transform: translateY(3px); box-shadow: 0 3px 0 #5f0f11; }
-        
         #ong-que { font-size: 100px; display: none; margin: 20px 0; }
         .shaking { animation: shake 0.1s infinite; }
         @keyframes shake { 0% { transform: translate(2px, 2px) rotate(5deg); } 50% { transform: translate(-2px, -2px) rotate(-5deg); } 100% { transform: translate(2px, 2px) rotate(5deg); } }
-
         .spread { display: none; position: relative; height: 300px; margin-top: 10px; }
-        .que { width: 45px; height: 210px; background: linear-gradient(to bottom, #f3d5b5, #e7bc91); border-radius: 25px 25px 5px 5px; border: 1px solid #bc8a5f; position: absolute; left: 50%; bottom: 20px; margin-left: -22.5px; transform-origin: bottom center; transition: 0.4s; display: flex; align-items: center; justify-content: center; writing-mode: vertical-rl; font-weight: bold; color: #8b5e34; box-shadow: 2px 5px 10px rgba(0,0,0,0.3); }
+        .que { width: 45px; height: 210px; background: linear-gradient(to bottom, #f3d5b5, #e7bc91); border-radius: 25px 25px 5px 5px; border: 1px solid #bc8a5f; position: absolute; left: 50%; bottom: 20px; margin-left: -22.5px; transform-origin: bottom center; transition: 0.4s; display: flex; align-items: center; justify-content: center; writing-mode: vertical-rl; font-weight: bold; color: #8b5e34; box-shadow: 2px 5px 10px rgba(0,0,0,0.3); cursor: pointer; }
         .que.selected { transform: translateY(-120px) scale(1.3) rotate(0deg) !important; z-index: 100; background: var(--gold); color: var(--red); border: 3px solid var(--red); }
-
         .modal { display: none; position: fixed; inset: 0; z-index: 999; background: rgba(0,0,0,0.9); justify-content: center; align-items: center; padding: 20px; }
-        .result-card { background: var(--paper); color: #222; padding: 30px 20px; border-radius: 20px; border: 10px double #8b5e34; text-align: center; width: 100%; max-width: 320px; position: relative; }
+        .result-card { background: var(--paper); color: #222; padding: 30px 20px; border-radius: 20px; border: 10px double #8b5e34; text-align: center; width: 100%; max-width: 320px; }
         .res-title { font-size: 28px; font-weight: 900; color: var(--red); }
-        
         .rain { position: fixed; inset: 0; pointer-events: none; display: none; z-index: 1001; }
         .drop { position: absolute; background: #fff; width: 1px; height: 15px; opacity: 0.4; animation: fall 0.4s linear infinite; }
         @keyframes fall { to { transform: translateY(100vh); } }
@@ -56,26 +52,27 @@
     </div>
 
 <script>
-    // Âm thanh chất lượng cao
-    const sndShake = new Audio('https://www.soundjay.com/misc/sounds/shaking-ice-in-cup-1.mp3');
-    const sndSuccess = new Audio('https://assets.mixkit.co/active_storage/sfx/1435/1435-preview.mp3'); // Tiếng kèn thắng
-    const sndSad = new Audio('https://www.myinstants.com/media/sounds/ytpmv-sad-violin.mp3'); // Nhạc buồn lém lỉnh
+    // 1. Khai báo âm thanh đa tầng
+    const sndShake = new Audio('https://www.soundjay.com/misc/sounds/shaking-ice-in-cup-1.mp3'); // Tiếng lắc
+    const sndDraw = new Audio('https://assets.mixkit.co/active_storage/sfx/2571/2571-preview.mp3'); // Tiếng rút quẻ "vút"
+    const sndWin = new Audio('https://assets.mixkit.co/active_storage/sfx/1435/1435-preview.mp3'); // Tiếng kèn thắng
+    const sndSad = new Audio('https://www.myinstants.com/media/sounds/ytpmv-sad-violin.mp3'); // Nhạc buồn
 
     const fortunes = [
         {t: "VẬN MAY KIẾN TẠO", d: "Vận may của bạn đang 'on top' như đội Bóng Chuyền 10/5 vừa hốt VÔ ĐỊCH vậy đó!", gift: true, type: 'good'},
-        {t: "CẨN TRỌNG KHẨU THIỆT", d: "Bớt sân si lại ní ơi. Hãy học cách giữ hạng Nhì đầy kiêu hãnh như đội bóng đá lớp mình nhé!", gift: false, type: 'bad'},
+        {t: "CẨN TRỌNG KHẨU THIỆT", d: "Bớt sân si lại ní ơi. Hãy học cách giữ hạng Nhì kiêu hãnh như đội bóng đá lớp mình nhé!", gift: false, type: 'bad'},
         {t: "GIÀU NGANG NGƯỢC", d: "Tiền vào như nước, đủ sức bao trọn nước uống cho dàn nhà vô địch 10/5 luôn!", gift: false, type: 'good'},
-        {t: "BẬC THẦY FLEXING", d: "Sắp có thành tích chấn động, y hệt cái cúp Vô Địch Bóng Chuyền đang nằm trong tay 10/5!", gift: false, type: 'good'},
-        {t: "TU TÂM DƯỠNG TÍNH", d: "Hãy tu dưỡng để đẹp trai xinh gái như dàn vận động viên 10/5 đi nào!", gift: false, type: 'bad'},
+        {t: "BẬC THẦY FLEXING", d: "Thành tích chấn động sắp tới, y hệt cái cúp Vô Địch Bóng Chuyền của lớp mình nè!", gift: false, type: 'good'},
+        {t: "TU TÂM DƯỠNG TÍNH", d: "Tu dưỡng để đẹp trai xinh gái như dàn vận động viên của 10/5 đi nào!", gift: false, type: 'bad'},
         {t: "SỐ HƯỞNG VÔ THỰC", d: "Quý nhân sắp bao ăn chơi, lẹ lẹ theo chân dàn hot boy 10/5 hóng lộc nhé!", gift: true, type: 'good'}
     ];
 
     function startAction() {
         if(!document.getElementById('dob').value) return alert("Nhập ngày sinh mới linh!");
         
-        // Rung khi bắt đầu lắc
+        // --- ÂM THANH XÓC ---
+        sndShake.play().catch(()=>{});
         if(navigator.vibrate) navigator.vibrate(200);
-        sndShake.play();
 
         document.getElementById('ui-input').style.display = 'none';
         const ong = document.getElementById('ong-que');
@@ -99,41 +96,46 @@
     }
 
     function selectQue(el) {
+        // --- ÂM THANH RÚT QUẺ ---
+        sndDraw.play().catch(()=>{}); 
         if(navigator.vibrate) navigator.vibrate(50);
+
         el.classList.add('selected');
         const dob = document.getElementById('dob').value.replace(/-/g, "");
         let sum = 0; for(let n of dob) sum += parseInt(n);
         const res = fortunes[sum % fortunes.length];
+        
         setTimeout(() => renderResult(res), 800);
     }
 
     function renderResult(res) {
+        // --- ÂM THANH HIỆN KẾT QUẢ ---
         if(res.type === 'good') {
-            sndSuccess.play();
-            if(navigator.vibrate) navigator.vibrate([200, 100, 200, 100, 400]); // Rung tưng bừng
+            sndWin.play().catch(()=>{});
+            if(navigator.vibrate) navigator.vibrate([200, 100, 200, 100, 400]);
             document.getElementById('status-icon').innerText = "🏆";
-            
-            var end = Date.now() + 4000;
-            (function frame() {
-                confetti({ particleCount: 7, angle: 60, spread: 55, origin: { x: 0 }, colors: ['#ff0000', '#ffd700'] });
-                confetti({ particleCount: 7, angle: 120, spread: 55, origin: { x: 1 }, colors: ['#ff0000', '#ffd700'] });
-                if (Date.now() < end) requestAnimationFrame(frame);
-            }());
+            confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 }, colors: ['#ff0000', '#ffd700'] });
         } else {
-            sndSad.play();
-            if(navigator.vibrate) navigator.vibrate(500); // Rung một cái dài buồn bã
+            sndSad.play().catch(()=>{});
+            if(navigator.vibrate) navigator.vibrate(500);
             document.getElementById('rain-effect').style.display = 'block';
             document.getElementById('status-icon').innerText = "⛈️";
-            for(let i=0; i<40; i++) {
-                let d = document.createElement('div'); d.className = 'drop';
-                d.style.left = Math.random()*100+'vw'; d.style.animationDuration = Math.random()*0.5+0.3+'s';
-                document.getElementById('rain-effect').appendChild(d);
-            }
+            createRain();
         }
+
         document.getElementById('res-title').innerText = res.t;
         document.getElementById('res-desc').innerText = res.d;
         document.getElementById('ui-gift').style.display = res.gift ? 'block' : 'none';
         document.getElementById('ui-modal').style.display = 'flex';
+    }
+
+    function createRain() {
+        const rain = document.getElementById('rain-effect');
+        for(let i=0; i<40; i++) {
+            let d = document.createElement('div'); d.className = 'drop';
+            d.style.left = Math.random()*100+'vw'; d.style.animationDuration = Math.random()*0.5+0.3+'s';
+            rain.appendChild(d);
+        }
     }
 </script>
 </body>

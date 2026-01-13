@@ -2,36 +2,35 @@
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>10/5 - LINH QUẺ ĐỊNH MỆNH</title>
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     <style>
         :root { --gold: #ffd700; --red: #a4161a; --paper: #fff5e6; --wood: #8b5e34; }
-        body { margin: 0; background: #0a0500; font-family: 'Segoe UI', sans-serif; display: flex; justify-content: center; align-items: center; min-height: 100vh; overflow: hidden; color: white; -webkit-tap-highlight-color: transparent; }
-        .container { width: 90%; max-width: 400px; text-align: center; z-index: 10; }
+        body { margin: 0; background: #0a0500; font-family: 'Segoe UI', sans-serif; display: flex; justify-content: center; align-items: center; min-height: 100vh; overflow: hidden; color: white; touch-action: manipulation; }
+        .container { width: 90%; max-width: 400px; text-align: center; }
         .wood-panel { background: var(--paper); color: #333; padding: 30px 20px; border-radius: 25px; border: 8px double var(--wood); box-shadow: 0 0 50px rgba(0,0,0,0.9); }
         
-        #welcome-screen { position: fixed; inset: 0; background: radial-gradient(circle, #2c0000, #000); z-index: 2000; display: flex; justify-content: center; align-items: center; padding: 20px; }
+        #welcome-screen { position: fixed; inset: 0; background: #1a0f00; z-index: 3000; display: flex; justify-content: center; align-items: center; padding: 20px; }
         h1 { color: var(--red); font-size: 24px; text-transform: uppercase; margin: 10px 0; }
-        input[type="date"] { width: 85%; padding: 15px; border-radius: 15px; border: 3px solid var(--wood); font-size: 18px; font-weight: bold; margin: 20px 0; background: #fff; text-align: center; color: #000; }
+        input[type="date"] { width: 85%; padding: 15px; border-radius: 15px; border: 3px solid var(--wood); font-size: 18px; font-weight: bold; margin: 20px 0; background: #fff; text-align: center; color: #000; -webkit-appearance: none; }
         
-        .btn-gieo { background: linear-gradient(to bottom, var(--red), #5f0f11); color: white; border: none; padding: 18px; border-radius: 50px; font-weight: bold; width: 100%; cursor: pointer; font-size: 18px; box-shadow: 0 6px 0 #330000; position: relative; z-index: 100; }
+        .btn-gieo { background: var(--red); color: white; border: none; padding: 20px; border-radius: 50px; font-weight: bold; width: 100%; cursor: pointer; font-size: 18px; box-shadow: 0 6px 0 #330000; position: relative; z-index: 100; }
         .btn-gieo:active { transform: translateY(3px); box-shadow: 0 2px 0 #330000; }
         
-        #ong-que { font-size: 120px; display: none; margin: 20px 0; }
+        #ong-que { font-size: 100px; display: none; margin: 20px 0; }
         .shaking { animation: shake 0.15s infinite; }
-        @keyframes shake { 0% { transform: rotate(8deg); } 50% { transform: rotate(-8deg); } 100% { transform: rotate(8deg); } }
+        @keyframes shake { 0% { transform: rotate(5deg); } 50% { transform: rotate(-5deg); } 100% { transform: rotate(5deg); } }
         
-        .spread { display: none; position: relative; height: 320px; margin-top: 20px; width: 100%; }
-        .que { width: 50px; height: 220px; background: linear-gradient(to bottom, #f3d5b5, #e7bc91); border-radius: 15px 15px 5px 5px; border: 1px solid #bc8a5f; position: absolute; left: 50%; bottom: 20px; margin-left: -25px; transform-origin: bottom center; transition: 0.4s ease; display: flex; align-items: center; justify-content: center; writing-mode: vertical-rl; font-weight: bold; color: var(--wood); box-shadow: 2px 5px 15px rgba(0,0,0,0.5); font-size: 14px; cursor: pointer; z-index: 50; }
-        .que.selected { transform: translateY(-130px) scale(1.3) rotate(0deg) !important; z-index: 1000 !important; background: var(--gold); color: var(--red); border: 3px solid var(--red); box-shadow: 0 0 30px var(--gold); }
-        
-        .modal { display: none; position: fixed; inset: 0; z-index: 2500; background: rgba(0,0,0,0.95); justify-content: center; align-items: center; padding: 20px; }
-        .result-card { background: var(--paper); color: #222; padding: 35px 25px; border-radius: 20px; border: 10px double var(--wood); text-align: center; width: 100%; max-width: 340px; }
+        #draw-zone { display: none; margin-top: 20px; }
+        .visual-que { width: 60px; height: 180px; background: linear-gradient(to bottom, #f3d5b5, #e7bc91); border-radius: 10px; border: 2px solid #bc8a5f; margin: 0 auto 20px; display: flex; align-items: center; justify-content: center; writing-mode: vertical-rl; font-weight: bold; color: var(--wood); box-shadow: 0 5px 15px rgba(0,0,0,0.5); }
+
+        .modal { display: none; position: fixed; inset: 0; z-index: 4000; background: rgba(0,0,0,0.95); justify-content: center; align-items: center; padding: 20px; }
+        .result-card { background: var(--paper); color: #222; padding: 30px 20px; border-radius: 20px; border: 10px double var(--wood); text-align: center; width: 100%; max-width: 320px; }
         .instruction-box { background: #fff3e0; border: 2px dashed var(--red); color: var(--red); padding: 12px; border-radius: 12px; margin: 15px 0; font-weight: bold; }
         
-        .rain { position: fixed; inset: 0; pointer-events: none; display: none; z-index: 2100; }
-        .drop { position: absolute; background: #fff; width: 1px; height: 20px; opacity: 0.3; animation: fall 0.4s linear infinite; }
+        .rain { position: fixed; inset: 0; pointer-events: none; display: none; z-index: 1001; }
+        .drop { position: absolute; background: #fff; width: 1px; height: 15px; opacity: 0.3; animation: fall 0.4s linear infinite; }
         @keyframes fall { to { transform: translateY(100vh); } }
     </style>
 </head>
@@ -51,24 +50,30 @@
     </div>
 
     <div class="rain" id="rain-effect"></div>
+
     <div class="container" id="app" style="display: none;">
-        <div class="wood-panel">
+        <div class="wood-panel" id="input-zone">
             <h1>NHẬP NGÀY SINH</h1>
             <input type="date" id="dob">
-            <button class="btn-gieo" id="btn-xinque" onclick="startAction()">XIN QUẺ ĐỊNH MỆNH</button>
+            <button class="btn-gieo" onclick="startShake()">XIN QUẺ LINH ỨNG</button>
         </div>
+
         <div id="ong-que">🏺</div>
-        <div class="spread" id="ui-spread"></div>
+
+        <div id="draw-zone">
+            <div class="visual-que">QUẺ ĐỊNH MỆNH</div>
+            <button class="btn-gieo" style="background: #d4a017;" onclick="pickFortune()">CHẠM ĐỂ RÚT QUẺ</button>
+        </div>
     </div>
 
     <div class="modal" id="ui-modal">
         <div class="result-card">
             <div id="status-icon" style="font-size: 60px;">🏆</div>
-            <div id="res-title" style="font-size: 26px; font-weight: 900; color: var(--red);"></div>
+            <div id="res-title" style="font-size: 24px; font-weight: 900; color: var(--red); text-transform: uppercase;"></div>
             <p id="res-desc" style="font-weight: 600; font-size: 17px; color: #333; margin: 15px 0;"></p>
             <div id="ui-gift" style="display:none;">
                 <div class="instruction-box">🎁 NHẬN 01 MÓC KHÓA!</div>
-                <p style="font-size: 13px; color: #d32f2f;">Đưa màn hình này cho nhân viên quầy 10/5 để nhận quà!</p>
+                <p style="font-size: 13px; color: #d32f2f;">Hãy đưa màn hình này cho nhân viên quầy 10/5 để nhận quà!</p>
             </div>
         </div>
     </div>
@@ -83,32 +88,20 @@
     };
 
     const fortunes = [
-        {t: "Vận May Kiến Tạo", d: "Thời tới cản không kịp! Bạn tỏa sáng như dàn siêu sao 10/5 lúc nâng cúp vô địch vậy!", gift: true, type: 'good'},
+        {t: "Vận May Kiến Tạo", d: "Thời tới cản không kịp! Bạn tỏa sáng như dàn siêu sao 10/5 lúc nâng cúp vô địch!", gift: true, type: 'good'},
         {t: "Tỷ Phú Tương Lai", d: "Năm 2026 tiền vào như nước, bạn giàu tới mức đủ sức tài trợ nước uống cho cả lớp!", gift: false, type: 'good'},
-        {t: "Cẩn Trọng Khẩu Thiệu", d: "Bớt sân si lại. Hãy giữ cái đầu lạnh như cách 10/5 giành hạng Nhì bóng đá!", gift: false, type: 'bad'},
         {t: "Quý Nhân Phù Trợ", d: "Sắp có người bao ăn chơi xả láng. Mau theo chân các hot boy 10/5 để hóng lộc!", gift: true, type: 'good'},
-        {t: "Sức Khỏe Vô Song", d: "Cơ thể bạn đang cực khỏe! Rất thích hợp thi đấu giành thêm cúp cho lớp 10/5.", gift: false, type: 'good'},
         {t: "Hào Quang Rực Rỡ", d: "Đi đâu cũng có người nhìn. Flex nhẹ cái thần thái của nhà vô địch 10/5 đi nào!", gift: false, type: 'good'},
-        {t: "Tu Tâm Dưỡng Tính", d: "Năm tới cần tịnh tâm. Đẹp trai xinh gái nhưng cái nết phải ngoan như 10/5 nhé!", gift: false, type: 'bad'},
         {t: "Tình Duyên Chớm Nở", d: "2026 sẽ có người thầm thương trộm nhớ. Coi chừng trúng tiếng sét ái tình tại đây!", gift: false, type: 'good'},
         {t: "Lộc Lá Đầy Kho", d: "Lộc ăn uống ngập tràn. Bạn sắp được ăn ngon đến mức quên lối về luôn!", gift: true, type: 'good'},
-        {t: "Thiên Tài Flexing", d: "Bạn sắp có một màn trình diễn để đời khiến ai cũng phải ngước nhìn. Đỉnh của chóp!", gift: false, type: 'good'}
+        {t: "Bậc Thầy Flexing", d: "Bạn sắp có một màn trình diễn để đời khiến ai cũng phải ngước nhìn. Đỉnh của chóp!", gift: false, type: 'good'},
+        {t: "Cẩn Trọng Khẩu Thiệt", d: "Bớt sân si lại. Hãy giữ cái đầu lạnh như cách 10/5 giành hạng Nhì bóng đá!", gift: false, type: 'bad'},
+        {t: "Tu Tâm Dưỡng Tính", d: "Năm tới cần tịnh tâm. Đẹp trai xinh gái nhưng cái nết phải ngoan như 10/5 nhé!", gift: false, type: 'bad'}
     ];
-
-    const vipFortune = {
-        t: "💎 THIẾU GIA VIP 2010", 
-        d: "Chào Trùm Cuối! Bạn là ngôi sao sáng nhất 10/5. Vận mệnh 2026 giàu sang tột đỉnh, vạn người mê!", 
-        gift: true, type: 'good'
-    };
-
-    function unlockAudio() {
-        Object.values(sounds).forEach(s => { s.play(); s.pause(); s.currentTime = 0; });
-    }
 
     function nextStep(step) {
         sounds.click.play().catch(()=>{});
         if(step === 1) {
-            unlockAudio();
             document.getElementById('step-1').style.display = 'none';
             document.getElementById('step-2').style.display = 'block';
         } else {
@@ -117,58 +110,37 @@
         }
     }
 
-    function startAction() {
+    function startShake() {
         const dob = document.getElementById('dob').value;
-        if(!dob) return alert("Nhập ngày sinh đã ní!");
+        if(!dob) return alert("Ní ơi, nhập ngày sinh mới linh!");
         
         sounds.shake.play().catch(()=>{});
-        document.getElementById('ui-input').style.display = 'none';
+        document.getElementById('input-zone').style.display = 'none';
         const ong = document.getElementById('ong-que');
         ong.style.display = 'block';
         ong.classList.add('shaking');
         
         setTimeout(() => {
             ong.style.display = 'none';
-            showFan();
-        }, 2200);
+            document.getElementById('draw-zone').style.display = 'block';
+        }, 2000);
     }
 
-    function showFan() {
-        const spread = document.getElementById('ui-spread');
-        spread.innerHTML = '';
-        spread.style.display = 'block';
-        for(let i=0; i<6; i++) {
-            const s = document.createElement('div');
-            s.className = 'que';
-            s.innerHTML = "QUẺ 10/5";
-            s.style.zIndex = 100 + i;
-            // Dùng mousedown/touchstart để nhạy hơn trên mobile
-            s.onclick = function() { selectQue(this); };
-            spread.appendChild(s);
-            setTimeout(() => {
-                s.style.transform = `rotate(${(i-2.5)*20}deg) translateX(${(i-2.5)*15}px)`;
-            }, i*100);
-        }
-    }
-
-    function selectQue(el) {
-        if(el.classList.contains('selected')) return;
+    function pickFortune() {
         sounds.draw.play().catch(()=>{});
-        el.classList.add('selected');
-        
         const dobInput = document.getElementById('dob').value;
         let res;
 
         if (dobInput === "2010-06-25") {
-            res = vipFortune;
+            res = {t: "💎 THIẾU GIA VIP 2010", d: "Chào Trùm Cuối! Bạn là ngôi sao sáng nhất 10/5. Vận mệnh 2026 giàu sang tột đỉnh!", gift: true, type: 'good'};
         } else {
             const d = new Date(dobInput);
             const val = d.getDate() + d.getMonth();
             res = fortunes[val % fortunes.length];
         }
 
-        localStorage.setItem('user_fortune_105_final', JSON.stringify(res));
-        setTimeout(() => renderResult(res), 1000);
+        localStorage.setItem('user_fortune_105_final_v3', JSON.stringify(res));
+        renderResult(res);
     }
 
     function renderResult(res) {
@@ -193,16 +165,14 @@
         const rain = document.getElementById('rain-effect');
         rain.style.display = 'block';
         for(let i=0; i<30; i++) {
-            let d = document.createElement('div');
-            d.className = 'drop';
-            d.style.left = Math.random()*100+'vw';
-            d.style.animationDuration = Math.random()*0.5+0.3+'s';
+            let d = document.createElement('div'); d.className = 'drop';
+            d.style.left = Math.random()*100+'vw'; d.style.animationDuration = Math.random()*0.5+0.3+'s';
             rain.appendChild(d);
         }
     }
 
     window.onload = function() {
-        const saved = localStorage.getItem('user_fortune_105_final');
+        const saved = localStorage.getItem('user_fortune_105_final_v3');
         if (saved) {
             document.getElementById('welcome-screen').style.display = 'none';
             renderResult(JSON.parse(saved));

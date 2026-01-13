@@ -11,16 +11,15 @@
         .wood-panel { background: var(--paper); color: #333; padding: 30px 20px; border-radius: 25px; border: 8px double var(--wood); box-shadow: 0 0 50px rgba(0,0,0,0.9); text-align: center; width: 90%; max-width: 350px; }
         #welcome-screen { position: fixed; inset: 0; background: radial-gradient(circle, #420000, #000); z-index: 5000; display: flex; justify-content: center; align-items: center; }
         h1 { color: #c0392b; font-size: 22px; text-transform: uppercase; margin-bottom: 20px; font-weight: 900; }
-        input[type="date"] { width: 90%; padding: 15px; border-radius: 12px; border: 3px solid var(--wood); font-size: 20px; font-weight: bold; margin-bottom: 20px; text-align: center; color: #000; }
-        .btn-action { background: linear-gradient(to bottom, #e74c3c, #c0392b); color: white; border: none; padding: 18px; border-radius: 50px; font-weight: bold; width: 100%; cursor: pointer; font-size: 16px; box-shadow: 0 5px 0 #7b241c; text-transform: uppercase; outline: none; }
+        input[type="date"] { width: 90%; padding: 15px; border-radius: 12px; border: 3px solid var(--wood); font-size: 20px; font-weight: bold; margin-bottom: 20px; text-align: center; color: #000; background: #fff; }
+        .btn-action { background: linear-gradient(to bottom, #e74c3c, #c0392b); color: white; border: none; padding: 18px; border-radius: 50px; font-weight: bold; width: 100%; cursor: pointer; font-size: 16px; box-shadow: 0 5px 0 #7b241c; text-transform: uppercase; }
         #ong-que-container { display: none; margin: 20px auto; font-size: 100px; }
         .shaking { animation: shake 0.1s infinite; }
         @keyframes shake { 0% { transform: translate(3px, 3px) rotate(5deg); } 50% { transform: translate(-3px, -3px) rotate(-5deg); } 100% { transform: translate(3px, 3px) rotate(5deg); } }
         .que-fan { display: none; position: relative; height: 260px; width: 100%; margin-top: 20px; }
         .que-stick { width: 45px; height: 180px; background: linear-gradient(#f3d5b5, #e7bc91); border-radius: 10px 10px 2px 2px; border: 1px solid #bc8a5f; position: absolute; left: 50%; bottom: 10px; margin-left: -22.5px; transform-origin: bottom center; transition: 0.3s; cursor: pointer; display: flex; align-items: center; justify-content: center; writing-mode: vertical-rl; font-size: 13px; font-weight: bold; color: var(--wood); box-shadow: 2px 2px 10px rgba(0,0,0,0.3); z-index: 10; }
         .modal { display: none; position: fixed; inset: 0; z-index: 6000; background: rgba(0,0,0,0.95); justify-content: center; align-items: center; padding: 20px; }
-        .result-card { background: var(--paper); color: #222; padding: 30px; border-radius: 20px; border: 10px double var(--wood); text-align: center; max-width: 320px; animation: pop 0.5s ease-out; }
-        @keyframes pop { from { transform: scale(0); } to { transform: scale(1); } }
+        .result-card { background: var(--paper); color: #222; padding: 30px; border-radius: 20px; border: 10px double var(--wood); text-align: center; max-width: 320px; }
         .gift-box { background: #fff3e0; border: 3px dashed #e74c3c; color: #e74c3c; padding: 10px; border-radius: 10px; margin: 15px 0; font-weight: 900; animation: pulse 1s infinite; }
     </style>
 </head>
@@ -29,8 +28,8 @@
     <div id="welcome-screen">
         <div class="wood-panel">
             <h1>THIÊN CƠ 10/5</h1>
-            <p style="font-weight: bold;">Chạm để kích hoạt linh quẻ</p>
-            <button class="btn-action" onclick="initSystem()">BẮT ĐẦU</button>
+            <p style="font-weight: bold;">Chạm nút dưới để bật linh quẻ & âm thanh</p>
+            <button class="btn-action" id="start-btn" onclick="initSystem()">BẬT ÂM THANH & BẮT ĐẦU</button>
         </div>
     </div>
 
@@ -57,29 +56,33 @@
     </div>
 
 <script>
-    // Link âm thanh ổn định
+    // Sử dụng thư viện âm thanh Pixabay ổn định hơn
     const sfx = {
-        shake: new Audio('https://www.soundjay.com/misc/sounds/shaking-ice-in-cup-1.mp3'),
-        draw: new Audio('https://assets.mixkit.co/active_storage/sfx/2571/2571-preview.mp3'),
-        win: new Audio('https://assets.mixkit.co/active_storage/sfx/2019/2019-preview.mp3'),
-        sad: new Audio('https://www.myinstants.com/media/sounds/sad-violin-meme.mp3')
+        shake: new Audio('https://cdn.pixabay.com/audio/2022/03/10/audio_c361667d4e.mp3'), // Tiếng gỗ/lắc
+        draw: new Audio('https://cdn.pixabay.com/audio/2022/03/15/audio_73147814b3.mp3'), // Tiếng soạt
+        win: new Audio('https://cdn.pixabay.com/audio/2021/08/04/audio_0625c15110.mp3'),  // Tiếng thắng
+        sad: new Audio('https://www.myinstants.com/media/sounds/sad-violin-meme.mp3')      // Tiếng buồn
     };
 
     const fortunes = [
         {t:"Đại Cát", d:"2026 vạn sự như ý, tiền vào như nước, học hành đỉnh cao!", type:"good", gift:false},
         {t:"Lộc Ăn", d:"Sắp tới bạn có lộc ăn uống ngập họng, toàn món ngon thôi.", type:"good", gift:true},
-        {t:"Hạn Thị Phi", d:"Dễ bị nói xấu sau lưng. Mua ngay 1 ly nước 10/5 để tẩy bụi trần, giải xui ngay!", type:"bad", gift:false},
-        {t:"Tình Duyên", d:"Có người thầm thương trộm nhớ, chuẩn bị thoát ế nhé.", type:"good", gift:false},
-        {t:"Sân Si Độ", d:"Độ sân si hơi cao rồi. Mua nước 10/5 tích đức để năm sau bớt khổ!", type:"bad", gift:false},
-        {t:"Hạn Suy Nghĩ", d:"Đầu óc đang quá tải. Uống nước 10/5 để tỉnh táo, bớt suy diễn tiêu cực!", type:"bad", gift:false},
+        {t:"Hạn Thị Phi", d:"Dễ bị nói xấu sau lưng. Mua ngay 1 ly nước 10/5 để giải xui ngay!", type:"bad", gift:false},
+        {t:"Sân Si Độ", d:"Độ sân si hơi cao rồi. Mua nước 10/5 tích đức để vận may trở lại!", type:"bad", gift:false},
         {t:"May Mắn", d:"Vận may bất ngờ ập đến, bạn là người may mắn nhất hôm nay!", type:"good", gift:true}
-        // ... (Trong thực tế sẽ có 70 câu như danh sách ní muốn)
     ];
     while(fortunes.length < 70) fortunes.push({t:"Bình Hòa", d:"Mọi chuyện ổn định. Hãy mua nước 10/5 ủng hộ lớp để gặp may nhé!", type:"good", gift:false});
 
     function initSystem() {
-        // Buộc trình duyệt nhận diện tương tác để phát âm thanh sau này
-        Object.values(sfx).forEach(a => { a.play(); a.pause(); a.currentTime = 0; });
+        // Mở khóa âm thanh cưỡng bức
+        for (let key in sfx) {
+            sfx[key].muted = false;
+            sfx[key].volume = 1.0;
+            sfx[key].play().then(() => {
+                sfx[key].pause();
+                sfx[key].currentTime = 0;
+            }).catch(e => console.log("Unlock failed for " + key));
+        }
         document.getElementById('welcome-screen').style.display = 'none';
         document.getElementById('main-app').style.display = 'block';
     }
@@ -87,9 +90,8 @@
     function handleShakeAction() {
         if(!document.getElementById('dob').value) return alert("Nhập ngày sinh đã ní!");
         
-        // Phát âm thanh xóc ngay khi bấm nút
         sfx.shake.loop = true;
-        sfx.shake.play().catch(e => console.log("Audio block", e));
+        sfx.shake.play();
         
         document.getElementById('input-ui').style.display='none';
         const ong = document.getElementById('ong-que-container');
@@ -103,7 +105,7 @@
             sfx.shake.currentTime = 0;
             ong.style.display='none';
             hienQueFan();
-        }, 2500);
+        }, 2200);
     }
 
     function hienQueFan() {
@@ -116,19 +118,18 @@
             q.innerHTML = "QUẺ 10/5";
             q.style.transform = `rotate(${(i-2.5)*18}deg) translateX(${(i-2.5)*12}px)`;
             
-            // SỰ KIỆN RÚT QUẺ
             q.onclick = function() {
                 if(this.classList.contains('selected')) return;
                 this.classList.add('selected');
                 
-                // Phát tiếng rút ngay lập tức
-                sfx.draw.play().catch(e => console.log(e));
+                // Tiếng rút (Draw)
+                sfx.draw.play();
                 
                 this.style.transform = "translateY(-120px) scale(1.2)";
                 this.style.zIndex = "1000";
                 
                 if(navigator.vibrate) navigator.vibrate(50);
-                setTimeout(() => showResult(), 1000);
+                setTimeout(() => showResult(), 800);
             };
             fan.appendChild(q);
         }
@@ -144,7 +145,7 @@
             const seed = d.getDate() + d.getMonth() + (d.getFullYear()%100);
             res = fortunes[seed % fortunes.length];
         }
-        localStorage.setItem('105_last_save_ever', JSON.stringify(res));
+        localStorage.setItem('105_last_fix_sound', JSON.stringify(res));
         displayFinalUI(res);
     }
 
@@ -153,23 +154,19 @@
         document.getElementById('res-title').innerText = res.t;
         document.getElementById('res-desc').innerText = res.d;
         document.getElementById('gift-area').style.display = res.gift ? 'block' : 'none';
-        
-        // Hiện Modal
         document.getElementById('modal-result').style.display='flex';
 
-        // Phân loại âm thanh kết quả
         if(res.type === "good") {
-            sfx.win.play().catch(e => console.log(e));
+            sfx.win.play();
             confetti({ particleCount: 200, spread: 80, origin: { y: 0.6 } });
-            if(navigator.vibrate) navigator.vibrate([200,100,500]);
         } else {
-            sfx.sad.play().catch(e => console.log(e));
+            sfx.sad.play();
             document.getElementById('res-icon').innerText = "⚠️";
         }
     }
 
     window.onload = () => {
-        const saved = localStorage.getItem('105_last_save_ever');
+        const saved = localStorage.getItem('105_last_fix_sound');
         if(saved) {
             document.getElementById('welcome-screen').style.display='none';
             displayFinalUI(JSON.parse(saved));
@@ -178,3 +175,4 @@
 </script>
 </body>
 </html>
+

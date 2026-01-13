@@ -3,51 +3,42 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>10/5 - LINH QUẺ VÔ ĐỊCH</title>
+    <title>10/5 - LINH QUẺ CHẤN ĐỘNG</title>
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     <style>
-        :root { --gold: #ffd700; --wood: #8b5e34; --red: #a4161a; --paper: #fff5e6; --sad-blue: #1a1a2e; }
-        body { margin: 0; background: #1a0f00; font-family: 'Segoe UI', sans-serif; display: flex; justify-content: center; align-items: center; min-height: 100vh; overflow: hidden; color: white; transition: 0.5s; }
+        :root { --gold: #ffd700; --red: #a4161a; --paper: #fff5e6; }
+        body { margin: 0; background: #1a0f00; font-family: 'Segoe UI', sans-serif; display: flex; justify-content: center; align-items: center; min-height: 100vh; overflow: hidden; color: white; }
         .container { width: 90%; max-width: 400px; text-align: center; }
-        .wood-panel { background: var(--paper); color: #333; padding: 30px 20px; border-radius: 25px; border: 8px double var(--wood); box-shadow: 0 0 50px rgba(0,0,0,0.8); position: relative; }
-        .badge { background: var(--red); color: white; padding: 5px 20px; border-radius: 50px; font-weight: bold; margin-bottom: 15px; display: inline-block; font-size: 14px; }
-        h1 { color: var(--red); margin: 0; font-size: 24px; text-transform: uppercase; }
-        .input-group { margin: 25px 0; }
-        input[type="date"] { width: 100%; padding: 15px; border-radius: 15px; border: 3px solid var(--wood); font-size: 20px; text-align: center; font-weight: bold; }
-        .btn-gieo { background: var(--red); color: white; border: none; padding: 20px; border-radius: 50px; font-weight: bold; width: 100%; cursor: pointer; font-size: 20px; box-shadow: 0 8px 0 #5f0f11; transition: 0.1s; }
-        .btn-gieo:active { transform: translateY(4px); box-shadow: 0 4px 0 #5f0f11; }
+        .wood-panel { background: var(--paper); color: #333; padding: 30px 20px; border-radius: 25px; border: 8px double #8b5e34; box-shadow: 0 0 50px rgba(0,0,0,0.8); }
+        h1 { color: var(--red); font-size: 24px; text-transform: uppercase; margin: 10px 0; }
+        input[type="date"] { width: 80%; padding: 15px; border-radius: 15px; border: 3px solid #8b5e34; font-size: 20px; font-weight: bold; margin: 20px 0; }
+        .btn-gieo { background: var(--red); color: white; border: none; padding: 18px; border-radius: 50px; font-weight: bold; width: 100%; cursor: pointer; font-size: 20px; box-shadow: 0 6px 0 #5f0f11; }
+        .btn-gieo:active { transform: translateY(3px); box-shadow: 0 3px 0 #5f0f11; }
         
-        .rain { position: fixed; width: 100%; height: 100%; pointer-events: none; z-index: 1000; display: none; }
-        .drop { position: absolute; background: rgba(255,255,255,0.4); width: 2px; height: 15px; top: -20px; animation: fall 0.5s linear infinite; }
-        @keyframes fall { to { transform: translateY(100vh); } }
-
-        .modal { display: none; position: fixed; inset: 0; z-index: 999; justify-content: center; align-items: center; padding: 20px; }
-        .result-card { background: var(--paper); color: #222; padding: 40px 20px; border-radius: 20px; border: 10px double var(--wood); text-align: center; position: relative; width: 100%; max-width: 350px; box-shadow: 0 0 30px rgba(255,215,0,0.3); }
-        .res-title { font-size: 30px; font-weight: 900; margin: 10px 0; line-height: 1.1; }
-        .gift-box { background: #fff3e0; color: #d35400; padding: 15px; border-radius: 15px; border: 3px dashed #d35400; font-weight: bold; margin-top: 20px; animation: bounce 0.5s infinite; }
-        
-        #ong-que { font-size: 120px; display: none; margin: 20px 0; }
+        #ong-que { font-size: 100px; display: none; margin: 20px 0; }
         .shaking { animation: shake 0.1s infinite; }
-        .spread { display: none; position: relative; height: 320px; margin-top: 10px; }
-        .que { width: 45px; height: 220px; background: linear-gradient(to bottom, #f3d5b5, #e7bc91); border-radius: 30px 30px 10px 10px; border: 1px solid #bc8a5f; position: absolute; left: 50%; bottom: 20px; margin-left: -22.5px; transform-origin: bottom center; transition: 0.5s ease; display: flex; align-items: center; justify-content: center; writing-mode: vertical-rl; font-weight: bold; color: var(--wood); font-size: 14px; box-shadow: 2px 5px 15px rgba(0,0,0,0.4); cursor: pointer; }
-        .que.selected { transform: translateY(-150px) scale(1.3) rotate(0deg) !important; z-index: 100; background: var(--gold); border: 3px solid var(--red); color: var(--red); }
+        @keyframes shake { 0% { transform: translate(2px, 2px) rotate(5deg); } 50% { transform: translate(-2px, -2px) rotate(-5deg); } 100% { transform: translate(2px, 2px) rotate(5deg); } }
+
+        .spread { display: none; position: relative; height: 300px; margin-top: 10px; }
+        .que { width: 45px; height: 210px; background: linear-gradient(to bottom, #f3d5b5, #e7bc91); border-radius: 25px 25px 5px 5px; border: 1px solid #bc8a5f; position: absolute; left: 50%; bottom: 20px; margin-left: -22.5px; transform-origin: bottom center; transition: 0.4s; display: flex; align-items: center; justify-content: center; writing-mode: vertical-rl; font-weight: bold; color: #8b5e34; box-shadow: 2px 5px 10px rgba(0,0,0,0.3); }
+        .que.selected { transform: translateY(-120px) scale(1.3) rotate(0deg) !important; z-index: 100; background: var(--gold); color: var(--red); border: 3px solid var(--red); }
+
+        .modal { display: none; position: fixed; inset: 0; z-index: 999; background: rgba(0,0,0,0.9); justify-content: center; align-items: center; padding: 20px; }
+        .result-card { background: var(--paper); color: #222; padding: 30px 20px; border-radius: 20px; border: 10px double #8b5e34; text-align: center; width: 100%; max-width: 320px; position: relative; }
+        .res-title { font-size: 28px; font-weight: 900; color: var(--red); }
         
-        @keyframes shake { 0% { transform: rotate(8deg); } 50% { transform: rotate(-8deg); } 100% { transform: rotate(8deg); } }
-        @keyframes bounce { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
-        .footer-flex { position: fixed; bottom: 10px; font-size: 10px; opacity: 0.5; width: 100%; text-align: center; pointer-events: none; color: gold; }
+        .rain { position: fixed; inset: 0; pointer-events: none; display: none; z-index: 1001; }
+        .drop { position: absolute; background: #fff; width: 1px; height: 15px; opacity: 0.4; animation: fall 0.4s linear infinite; }
+        @keyframes fall { to { transform: translateY(100vh); } }
     </style>
 </head>
 <body>
-
     <div class="rain" id="rain-effect"></div>
-    <div class="footer-flex">🏆 VÔ ĐỊCH BÓNG CHUYỀN NAM | HẠNG NHÌ BÓNG ĐÁ ⚽ 10/5</div>
-
     <div class="container" id="app">
         <div class="wood-panel" id="ui-input">
-            <div class="badge">🎪 TRẠI LỚP 10/5 🎪</div>
-            <h1>QUẺ ĐỊNH MỆNH 2026</h1>
-            <p style="color: #666; font-size: 12px;">Đúng ngày sinh - Đúng số mệnh</p>
-            <div class="input-group"><input type="date" id="dob"></div>
+            <div style="background:var(--red); color:white; padding:5px; border-radius:10px; font-size:12px; margin-bottom:10px;">👑 10/5 CHAMPION EDITION</div>
+            <h1>XIN QUẺ LINH ỨNG</h1>
+            <input type="date" id="dob">
             <button class="btn-gieo" onclick="startAction()">XIN QUẺ NGAY</button>
         </div>
         <div id="ong-que">🏺</div>
@@ -55,65 +46,60 @@
     </div>
 
     <div class="modal" id="ui-modal">
-        <div class="result-card" id="card">
-            <div id="status-icon" style="font-size: 50px; margin-bottom: 10px;">✨</div>
-            <div id="res-title" class="res-title">...</div>
-            <div id="res-desc" style="font-size: 17px; font-weight: 600; line-height: 1.4;">...</div>
-            <div id="ui-gift" style="display:none;"><div class="gift-box">🎁 QUÀ TẶNG: 01 MÓC KHÓA!<br><span style="font-size: 11px;">Đưa màn hình cho quầy 10/5 nhận quà!</span></div></div>
-            <p style="font-size: 10px; color: #999; margin-top: 25px;">Mã quẻ linh ứng: #105-CHAMPION</p>
+        <div class="result-card">
+            <div id="status-icon" style="font-size: 50px;">🏆</div>
+            <div id="res-title" class="res-title"></div>
+            <p id="res-desc" style="font-weight: 600; font-size: 18px; color: #333;"></p>
+            <div id="ui-gift" style="display:none; background:#ffd700; color:red; padding:10px; border-radius:10px; font-weight:bold; margin: 10px 0; border: 2px dashed red;">🎁 NHẬN MÓC KHÓA NGAY!</div>
+            <button class="btn-gieo" onclick="location.reload()" style="background:#555; box-shadow:0 5px 0 #222; font-size:16px;">GIEO LẠI (TEST)</button>
         </div>
     </div>
 
 <script>
-    // Khởi tạo âm thanh
+    // Âm thanh chất lượng cao
     const sndShake = new Audio('https://www.soundjay.com/misc/sounds/shaking-ice-in-cup-1.mp3');
-    const sndWin = new Audio('https://assets.mixkit.co/active_storage/sfx/2013/2013-preview.mp3');
-    const sndSad = new Audio('https://www.myinstants.com/media/sounds/thud.mp3');
+    const sndSuccess = new Audio('https://assets.mixkit.co/active_storage/sfx/1435/1435-preview.mp3'); // Tiếng kèn thắng
+    const sndSad = new Audio('https://www.myinstants.com/media/sounds/ytpmv-sad-violin.mp3'); // Nhạc buồn lém lỉnh
 
     const fortunes = [
-        {t: "VẬN MAY KIẾN TẠO", d: "Thời tới cản không kịp! Vận may của bạn đang 'on top' giống như đội Bóng Chuyền Nam 10/5 vừa VÔ ĐỊCH vậy đó!", gift: true, type: 'good'},
-        {t: "CẨN TRỌNG KHẨU THIỆT", d: "Quẻ này hơi 'xu'. Hãy bớt sân si và bình tĩnh lại như cách đội bóng đá 10/5 giữ hạng Nhì đầy kiêu hãnh nhé!", gift: false, type: 'bad'},
-        {t: "GIÀU NGANG NGƯỢC", d: "Tiền vào như nước. Năm tới bạn giàu tới mức đủ sức tài trợ nước uống trọn đời cho dàn siêu sao 10/5 luôn!", gift: false, type: 'good'},
-        {t: "SỐ HƯỞNG VÔ THỰC", d: "Bạn có số hưởng cực kỳ! Quý nhân sắp xuất hiện bao ăn chơi, lẹ lẹ đi theo dàn hot boy 10/5 để hóng lộc nhé.", gift: true, type: 'good'},
-        {t: "TU TÂM DƯỠNG TÍNH", d: "Bớt soi mói lại ní ơi. Hãy tập trung tu dưỡng để đẹp trai xinh gái như dàn vận động viên của 10/5 đi nào!", gift: false, type: 'bad'},
-        {t: "BẬC THẦY FLEXING", d: "Danh tiếng vang xa! Bạn sắp có thành tích chấn động, y hệt cái cúp Vô Địch Bóng Chuyền đang nằm trong tay 10/5 nè.", gift: false, type: 'good'},
-        {t: "KIẾP NẠN CỘT SỐNG", d: "Thức khuya ít thôi kẻo cột sống kêu cứu. Phải khỏe mạnh thì mới đi cổ vũ bóng chuyền, bóng đá cho lớp được!", gift: false, type: 'bad'}
+        {t: "VẬN MAY KIẾN TẠO", d: "Vận may của bạn đang 'on top' như đội Bóng Chuyền 10/5 vừa hốt VÔ ĐỊCH vậy đó!", gift: true, type: 'good'},
+        {t: "CẨN TRỌNG KHẨU THIỆT", d: "Bớt sân si lại ní ơi. Hãy học cách giữ hạng Nhì đầy kiêu hãnh như đội bóng đá lớp mình nhé!", gift: false, type: 'bad'},
+        {t: "GIÀU NGANG NGƯỢC", d: "Tiền vào như nước, đủ sức bao trọn nước uống cho dàn nhà vô địch 10/5 luôn!", gift: false, type: 'good'},
+        {t: "BẬC THẦY FLEXING", d: "Sắp có thành tích chấn động, y hệt cái cúp Vô Địch Bóng Chuyền đang nằm trong tay 10/5!", gift: false, type: 'good'},
+        {t: "TU TÂM DƯỠNG TÍNH", d: "Hãy tu dưỡng để đẹp trai xinh gái như dàn vận động viên 10/5 đi nào!", gift: false, type: 'bad'},
+        {t: "SỐ HƯỞNG VÔ THỰC", d: "Quý nhân sắp bao ăn chơi, lẹ lẹ theo chân dàn hot boy 10/5 hóng lộc nhé!", gift: true, type: 'good'}
     ];
 
-    function createRain() {
-        const rain = document.getElementById('rain-effect');
-        rain.innerHTML = ''; rain.style.display = 'block';
-        for(let i=0; i<50; i++) {
-            let drop = document.createElement('div');
-            drop.className = 'drop';
-            drop.style.left = Math.random() * 100 + 'vw';
-            drop.style.animationDuration = (Math.random() * 0.5 + 0.3) + 's';
-            rain.appendChild(drop);
-        }
-    }
-
     function startAction() {
-        if(!document.getElementById('dob').value) return alert("Ní ơi, nhập ngày sinh mới linh!");
-        sndShake.play().catch(()=>{}); // Chơi nhạc lắc
+        if(!document.getElementById('dob').value) return alert("Nhập ngày sinh mới linh!");
+        
+        // Rung khi bắt đầu lắc
+        if(navigator.vibrate) navigator.vibrate(200);
+        sndShake.play();
+
         document.getElementById('ui-input').style.display = 'none';
         const ong = document.getElementById('ong-que');
         ong.style.display = 'block'; ong.classList.add('shaking');
-        setTimeout(() => { ong.style.display = 'none'; showFan(); }, 2100);
+        
+        setTimeout(() => {
+            ong.style.display = 'none';
+            showFan();
+        }, 2200);
     }
 
     function showFan() {
         const spread = document.getElementById('ui-spread');
-        spread.style.display = 'block';
-        for(let i=0; i<8; i++) {
+        spread.innerHTML = ''; spread.style.display = 'block';
+        for(let i=0; i<6; i++) {
             const s = document.createElement('div'); s.className = 'que'; s.innerHTML = "QUẺ 10/5";
             s.onclick = function() { selectQue(this); };
             spread.appendChild(s);
-            setTimeout(() => { s.style.transform = `rotate(${(i-3.5)*15}deg) translateX(${(i-3.5)*8}px)`; }, i*80);
+            setTimeout(() => { s.style.transform = `rotate(${(i-2.5)*20}deg) translateX(${(i-2.5)*10}px)`; }, i*100);
         }
     }
 
     function selectQue(el) {
-        if(el.classList.contains('selected')) return;
+        if(navigator.vibrate) navigator.vibrate(50);
         el.classList.add('selected');
         const dob = document.getElementById('dob').value.replace(/-/g, "");
         let sum = 0; for(let n of dob) sum += parseInt(n);
@@ -122,38 +108,34 @@
     }
 
     function renderResult(res) {
-        const modal = document.getElementById('ui-modal');
-        const icon = document.getElementById('status-icon');
-        const card = document.getElementById('card');
-        
         if(res.type === 'good') {
-            sndWin.play().catch(()=>{}); // Nhạc thắng
-            modal.style.backgroundColor = "rgba(255, 215, 0, 0.4)";
-            icon.innerText = "🏆";
-            card.style.borderColor = "var(--gold)";
+            sndSuccess.play();
+            if(navigator.vibrate) navigator.vibrate([200, 100, 200, 100, 400]); // Rung tưng bừng
+            document.getElementById('status-icon').innerText = "🏆";
             
-            var end = Date.now() + (res.gift ? 4000 : 2000);
+            var end = Date.now() + 4000;
             (function frame() {
-                confetti({ particleCount: 5, angle: 60, spread: 55, origin: { x: 0 }, colors: ['#ff0000', '#ffd700'] });
-                confetti({ particleCount: 5, angle: 120, spread: 55, origin: { x: 1 }, colors: ['#ff0000', '#ffd700'] });
+                confetti({ particleCount: 7, angle: 60, spread: 55, origin: { x: 0 }, colors: ['#ff0000', '#ffd700'] });
+                confetti({ particleCount: 7, angle: 120, spread: 55, origin: { x: 1 }, colors: ['#ff0000', '#ffd700'] });
                 if (Date.now() < end) requestAnimationFrame(frame);
             }());
         } else {
-            sndSad.play().catch(()=>{}); // Nhạc buồn
-            document.body.style.background = "#00001a";
-            modal.style.backgroundColor = "rgba(0, 0, 0, 0.8)";
-            icon.innerText = "⛈️";
-            card.style.borderColor = "#444";
-            createRain();
+            sndSad.play();
+            if(navigator.vibrate) navigator.vibrate(500); // Rung một cái dài buồn bã
+            document.getElementById('rain-effect').style.display = 'block';
+            document.getElementById('status-icon').innerText = "⛈️";
+            for(let i=0; i<40; i++) {
+                let d = document.createElement('div'); d.className = 'drop';
+                d.style.left = Math.random()*100+'vw'; d.style.animationDuration = Math.random()*0.5+0.3+'s';
+                document.getElementById('rain-effect').appendChild(d);
+            }
         }
-
         document.getElementById('res-title').innerText = res.t;
         document.getElementById('res-desc').innerText = res.d;
-        document.getElementById('res-title').style.color = res.type === 'good' ? 'var(--red)' : '#2c3e50';
-        if(res.gift) document.getElementById('ui-gift').style.display = 'block';
-        document.getElementById('app').style.display = 'none';
-        modal.style.display = 'flex';
+        document.getElementById('ui-gift').style.display = res.gift ? 'block' : 'none';
+        document.getElementById('ui-modal').style.display = 'flex';
     }
 </script>
 </body>
 </html>
+

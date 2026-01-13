@@ -1,0 +1,25 @@
+/* Hiệu ứng khung vàng cho nhà vô địch */
+.result-card {
+    border: 10px double #ffd700 !important; /* Màu vàng vô địch */
+    background-color: #fff5e6;
+    position: relative;
+}
+
+/* Flex nhẹ vô địch bóng chuyền ở dưới cùng màn hình */
+body::after {
+    content: "🏆 10/5: Vô Địch Bóng Chuyền Nam | Hạng Nhì Bóng Đá ⚽";
+    position: fixed;
+    bottom: 5px;
+    left: 0;
+    width: 100%;
+    text-align: center;
+    font-size: 11px;
+    color: rgba(255,255,255,0.4);
+    pointer-events: none;
+    z-index: 1000;
+}
+
+/* Hiệu ứng mưa rơi cho quẻ xui */
+.rain-active {
+    background: linear-gradient(to bottom, #1a1a2e, #16213e) !important;
+}

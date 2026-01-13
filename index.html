@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>10/5 - LINH QUẺ SIÊU CẤP</title>
+    <title>10/5 - LINH QUẺ VÔ ĐỊCH</title>
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     <style>
-        :root { --gold: #ffd700; --wood: #8b5e34; --red: #a4161a; --paper: #fff5e6; --sad-blue: #2c3e50; }
-        body { margin: 0; background: #1a0f00; font-family: 'Segoe UI', sans-serif; display: flex; justify-content: center; align-items: center; min-height: 100vh; overflow: hidden; color: white; }
+        :root { --gold: #ffd700; --wood: #8b5e34; --red: #a4161a; --paper: #fff5e6; --sad-blue: #1a1a2e; }
+        body { margin: 0; background: #1a0f00; font-family: 'Segoe UI', sans-serif; display: flex; justify-content: center; align-items: center; min-height: 100vh; overflow: hidden; color: white; transition: 0.5s; }
         .container { width: 90%; max-width: 400px; text-align: center; }
         .wood-panel { background: var(--paper); color: #333; padding: 30px 20px; border-radius: 25px; border: 8px double var(--wood); box-shadow: 0 0 50px rgba(0,0,0,0.8); position: relative; }
         .badge { background: var(--red); color: white; padding: 5px 20px; border-radius: 50px; font-weight: bold; margin-bottom: 15px; display: inline-block; font-size: 14px; }
@@ -17,30 +17,30 @@
         .btn-gieo { background: var(--red); color: white; border: none; padding: 20px; border-radius: 50px; font-weight: bold; width: 100%; cursor: pointer; font-size: 20px; box-shadow: 0 8px 0 #5f0f11; transition: 0.1s; }
         .btn-gieo:active { transform: translateY(4px); box-shadow: 0 4px 0 #5f0f11; }
         
-        /* Hiệu ứng mưa rơi cho quẻ xấu */
         .rain { position: fixed; width: 100%; height: 100%; pointer-events: none; z-index: 1000; display: none; }
         .drop { position: absolute; background: rgba(255,255,255,0.4); width: 2px; height: 15px; top: -20px; animation: fall 0.5s linear infinite; }
         @keyframes fall { to { transform: translateY(100vh); } }
 
-        /* Kết quả */
-        .modal { display: none; position: fixed; inset: 0; z-index: 999; justify-content: center; align-items: center; padding: 20px; transition: 0.5s; }
-        .result-card { background: var(--paper); color: #222; padding: 40px 20px; border-radius: 20px; border: 10px double var(--wood); text-align: center; position: relative; width: 100%; max-width: 350px; }
-        .res-title { font-size: 35px; font-weight: 900; margin: 10px 0; line-height: 1.1; }
-        .gift-box { background: #fff3e0; color: #d35400; padding: 20px; border-radius: 15px; border: 3px dashed #d35400; font-weight: bold; margin-top: 20px; animation: bounce 0.5s infinite; }
+        .modal { display: none; position: fixed; inset: 0; z-index: 999; justify-content: center; align-items: center; padding: 20px; }
+        .result-card { background: var(--paper); color: #222; padding: 40px 20px; border-radius: 20px; border: 10px double var(--wood); text-align: center; position: relative; width: 100%; max-width: 350px; box-shadow: 0 0 30px rgba(255,215,0,0.3); }
+        .res-title { font-size: 30px; font-weight: 900; margin: 10px 0; line-height: 1.1; }
+        .gift-box { background: #fff3e0; color: #d35400; padding: 15px; border-radius: 15px; border: 3px dashed #d35400; font-weight: bold; margin-top: 20px; animation: bounce 0.5s infinite; }
         
         #ong-que { font-size: 120px; display: none; margin: 20px 0; }
         .shaking { animation: shake 0.1s infinite; }
         .spread { display: none; position: relative; height: 320px; margin-top: 10px; }
-        .que { width: 45px; height: 220px; background: linear-gradient(to bottom, #f3d5b5, #e7bc91); border-radius: 30px 30px 10px 10px; border: 1px solid #bc8a5f; position: absolute; left: 50%; bottom: 20px; margin-left: -22.5px; transform-origin: bottom center; transition: 0.5s ease; display: flex; align-items: center; justify-content: center; writing-mode: vertical-rl; font-weight: bold; color: var(--wood); font-size: 14px; box-shadow: 2px 5px 15px rgba(0,0,0,0.4); }
+        .que { width: 45px; height: 220px; background: linear-gradient(to bottom, #f3d5b5, #e7bc91); border-radius: 30px 30px 10px 10px; border: 1px solid #bc8a5f; position: absolute; left: 50%; bottom: 20px; margin-left: -22.5px; transform-origin: bottom center; transition: 0.5s ease; display: flex; align-items: center; justify-content: center; writing-mode: vertical-rl; font-weight: bold; color: var(--wood); font-size: 14px; box-shadow: 2px 5px 15px rgba(0,0,0,0.4); cursor: pointer; }
         .que.selected { transform: translateY(-150px) scale(1.3) rotate(0deg) !important; z-index: 100; background: var(--gold); border: 3px solid var(--red); color: var(--red); }
         
         @keyframes shake { 0% { transform: rotate(8deg); } 50% { transform: rotate(-8deg); } 100% { transform: rotate(8deg); } }
         @keyframes bounce { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
+        .footer-flex { position: fixed; bottom: 10px; font-size: 10px; opacity: 0.5; width: 100%; text-align: center; pointer-events: none; color: gold; }
     </style>
 </head>
 <body>
 
     <div class="rain" id="rain-effect"></div>
+    <div class="footer-flex">🏆 VÔ ĐỊCH BÓNG CHUYỀN NAM | HẠNG NHÌ BÓNG ĐÁ ⚽ 10/5</div>
 
     <div class="container" id="app">
         <div class="wood-panel" id="ui-input">
@@ -58,25 +58,31 @@
         <div class="result-card" id="card">
             <div id="status-icon" style="font-size: 50px; margin-bottom: 10px;">✨</div>
             <div id="res-title" class="res-title">...</div>
-            <div id="res-desc" style="font-size: 17px; font-weight: 600; line-height: 1.5;">...</div>
-            <div id="ui-gift" style="display:none;"><div class="gift-box">🎁 QUÀ TẶNG: 01 MÓC KHÓA!<br><span style="font-size: 12px;">Đưa màn hình cho quầy 10/5 nhận quà!</span></div></div>
-            <p style="font-size: 10px; color: #999; margin-top: 25px;">Mã quẻ linh ứng: #105-VIP</p>
+            <div id="res-desc" style="font-size: 17px; font-weight: 600; line-height: 1.4;">...</div>
+            <div id="ui-gift" style="display:none;"><div class="gift-box">🎁 QUÀ TẶNG: 01 MÓC KHÓA!<br><span style="font-size: 11px;">Đưa màn hình cho quầy 10/5 nhận quà!</span></div></div>
+            <p style="font-size: 10px; color: #999; margin-top: 25px;">Mã quẻ linh ứng: #105-CHAMPION</p>
         </div>
     </div>
 
 <script>
+    // Khởi tạo âm thanh
+    const sndShake = new Audio('https://www.soundjay.com/misc/sounds/shaking-ice-in-cup-1.mp3');
+    const sndWin = new Audio('https://assets.mixkit.co/active_storage/sfx/2013/2013-preview.mp3');
+    const sndSad = new Audio('https://www.myinstants.com/media/sounds/thud.mp3');
+
     const fortunes = [
-        {t: "VẬN MAY KIẾN TẠO", d: "Thời tới không cản kịp! Bạn sắp có bước ngoặt lớn, chỉ cần tự tin là thắng lợi.", gift: true, type: 'good'},
-        {t: "CẨN TRỌNG KHẨU THIỆT", d: "Quẻ xấu! Bạn đang quá 'sân si'. Hãy bớt nóng tính và bớt nói xấu bạn bè thì may mắn mới tới!", gift: false, type: 'bad'},
-        {t: "GIÀU NGANG NGƯỢC", d: "Tiền bạc hanh thông, lộc lá đầy mình. Năm tới bạn sẽ có túi tiền không đáy!", gift: false, type: 'good'},
-        {t: "SỐ HƯỞNG VÔ THỰC", d: "Quẻ cực tốt! Đi đâu cũng có người bao ăn chơi. Quý nhân chính là bạn bè 10/5.", gift: true, type: 'good'},
-        {t: "TU TÂM DƯỠNG TÍNH", d: "Dạo này bạn hay soi mói quá nhé. Hãy mở lòng ra và giúp đỡ mọi người để giải hạn!", gift: false, type: 'bad'},
-        {t: "KIẾP NẠN CỘT SỐNG", d: "Thức khuya hóng drama quá nhiều rồi đó. Hãy ngủ sớm đi nếu không tài lộc sẽ lánh xa!", gift: false, type: 'bad'},
-        {t: "BẬC THẦY FLEXING", d: "Danh tiếng vang xa, học hành đỗ đạt. Bạn là niềm tự hào của lớp 10/5 năm tới!", gift: false, type: 'good'}
+        {t: "VẬN MAY KIẾN TẠO", d: "Thời tới cản không kịp! Vận may của bạn đang 'on top' giống như đội Bóng Chuyền Nam 10/5 vừa VÔ ĐỊCH vậy đó!", gift: true, type: 'good'},
+        {t: "CẨN TRỌNG KHẨU THIỆT", d: "Quẻ này hơi 'xu'. Hãy bớt sân si và bình tĩnh lại như cách đội bóng đá 10/5 giữ hạng Nhì đầy kiêu hãnh nhé!", gift: false, type: 'bad'},
+        {t: "GIÀU NGANG NGƯỢC", d: "Tiền vào như nước. Năm tới bạn giàu tới mức đủ sức tài trợ nước uống trọn đời cho dàn siêu sao 10/5 luôn!", gift: false, type: 'good'},
+        {t: "SỐ HƯỞNG VÔ THỰC", d: "Bạn có số hưởng cực kỳ! Quý nhân sắp xuất hiện bao ăn chơi, lẹ lẹ đi theo dàn hot boy 10/5 để hóng lộc nhé.", gift: true, type: 'good'},
+        {t: "TU TÂM DƯỠNG TÍNH", d: "Bớt soi mói lại ní ơi. Hãy tập trung tu dưỡng để đẹp trai xinh gái như dàn vận động viên của 10/5 đi nào!", gift: false, type: 'bad'},
+        {t: "BẬC THẦY FLEXING", d: "Danh tiếng vang xa! Bạn sắp có thành tích chấn động, y hệt cái cúp Vô Địch Bóng Chuyền đang nằm trong tay 10/5 nè.", gift: false, type: 'good'},
+        {t: "KIẾP NẠN CỘT SỐNG", d: "Thức khuya ít thôi kẻo cột sống kêu cứu. Phải khỏe mạnh thì mới đi cổ vũ bóng chuyền, bóng đá cho lớp được!", gift: false, type: 'bad'}
     ];
 
     function createRain() {
         const rain = document.getElementById('rain-effect');
+        rain.innerHTML = ''; rain.style.display = 'block';
         for(let i=0; i<50; i++) {
             let drop = document.createElement('div');
             drop.className = 'drop';
@@ -86,18 +92,13 @@
         }
     }
 
-    window.onload = function() {
-        const saved = localStorage.getItem('lock_105_final');
-        if (saved) renderResult(JSON.parse(saved));
-    };
-
     function startAction() {
         if(!document.getElementById('dob').value) return alert("Ní ơi, nhập ngày sinh mới linh!");
+        sndShake.play().catch(()=>{}); // Chơi nhạc lắc
         document.getElementById('ui-input').style.display = 'none';
         const ong = document.getElementById('ong-que');
         ong.style.display = 'block'; ong.classList.add('shaking');
-        new Audio('https://www.soundjay.com/misc/sounds/shaking-ice-in-cup-1.mp3').play().catch(()=>{});
-        setTimeout(() => { ong.style.display = 'none'; showFan(); }, 2000);
+        setTimeout(() => { ong.style.display = 'none'; showFan(); }, 2100);
     }
 
     function showFan() {
@@ -112,35 +113,37 @@
     }
 
     function selectQue(el) {
+        if(el.classList.contains('selected')) return;
         el.classList.add('selected');
         const dob = document.getElementById('dob').value.replace(/-/g, "");
         let sum = 0; for(let n of dob) sum += parseInt(n);
         const res = fortunes[sum % fortunes.length];
-        setTimeout(() => { localStorage.setItem('lock_105_final', JSON.stringify(res)); renderResult(res); }, 800);
+        setTimeout(() => renderResult(res), 800);
     }
 
     function renderResult(res) {
         const modal = document.getElementById('ui-modal');
         const icon = document.getElementById('status-icon');
+        const card = document.getElementById('card');
         
         if(res.type === 'good') {
+            sndWin.play().catch(()=>{}); // Nhạc thắng
             modal.style.backgroundColor = "rgba(255, 215, 0, 0.4)";
-            icon.innerText = "🌟";
-            if(res.gift) {
-                icon.innerText = "👑";
-                var end = Date.now() + 5000;
-                (function frame() {
-                    confetti({ particleCount: 5, angle: 60, spread: 55, origin: { x: 0 } });
-                    confetti({ particleCount: 5, angle: 120, spread: 55, origin: { x: 1 } });
-                    if (Date.now() < end) requestAnimationFrame(frame);
-                }());
-            } else {
-                confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } });
-            }
+            icon.innerText = "🏆";
+            card.style.borderColor = "var(--gold)";
+            
+            var end = Date.now() + (res.gift ? 4000 : 2000);
+            (function frame() {
+                confetti({ particleCount: 5, angle: 60, spread: 55, origin: { x: 0 }, colors: ['#ff0000', '#ffd700'] });
+                confetti({ particleCount: 5, angle: 120, spread: 55, origin: { x: 1 }, colors: ['#ff0000', '#ffd700'] });
+                if (Date.now() < end) requestAnimationFrame(frame);
+            }());
         } else {
-            modal.style.backgroundColor = "rgba(0, 0, 50, 0.8)";
-            icon.innerText = "🌑";
-            document.getElementById('rain-effect').style.display = 'block';
+            sndSad.play().catch(()=>{}); // Nhạc buồn
+            document.body.style.background = "#00001a";
+            modal.style.backgroundColor = "rgba(0, 0, 0, 0.8)";
+            icon.innerText = "⛈️";
+            card.style.borderColor = "#444";
             createRain();
         }
 

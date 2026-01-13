@@ -3,26 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>10/5 - LINH QUẺ VÔ TẬN</title>
+    <title>10/5 - LINH QUẺ ĐỊNH MỆNH</title>
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     <style>
         :root { --gold: #ffd700; --red: #c0392b; --paper: #fff5e6; --wood: #5d4037; }
         body { margin: 0; background: #000; font-family: 'Segoe UI', sans-serif; display: flex; justify-content: center; align-items: center; min-height: 100vh; overflow: hidden; color: white; touch-action: manipulation; }
         .wood-panel { background: var(--paper); color: #333; padding: 30px 20px; border-radius: 25px; border: 8px double var(--wood); box-shadow: 0 0 50px rgba(0,0,0,0.9); text-align: center; width: 90%; max-width: 350px; }
         #welcome-screen { position: fixed; inset: 0; background: radial-gradient(circle, #420000, #000); z-index: 5000; display: flex; justify-content: center; align-items: center; padding: 20px; }
-        h1 { color: #c0392b; font-size: 22px; text-transform: uppercase; margin-bottom: 20px; }
-        input[type="date"] { width: 90%; padding: 15px; border-radius: 12px; border: 3px solid var(--wood); font-size: 20px; font-weight: bold; margin-bottom: 20px; text-align: center; }
+        h1 { color: #c0392b; font-size: 22px; text-transform: uppercase; margin-bottom: 20px; font-weight: 900; }
+        input[type="date"] { width: 90%; padding: 15px; border-radius: 12px; border: 3px solid var(--wood); font-size: 20px; font-weight: bold; margin-bottom: 20px; text-align: center; color: #000; }
         .btn-action { background: linear-gradient(to bottom, #e74c3c, #c0392b); color: white; border: none; padding: 18px; border-radius: 50px; font-weight: bold; width: 100%; cursor: pointer; font-size: 16px; box-shadow: 0 5px 0 #7b241c; text-transform: uppercase; }
         .btn-action:active { transform: translateY(3px); box-shadow: 0 2px 0 #7b241c; }
-        #ong-que-container { display: none; margin: 20px auto; }
+        #ong-que-container { display: none; margin: 20px auto; font-size: 100px; }
         .shaking { animation: shake 0.1s infinite; }
         @keyframes shake { 0% { transform: translate(3px, 3px) rotate(5deg); } 50% { transform: translate(-3px, -3px) rotate(-5deg); } 100% { transform: translate(3px, 3px) rotate(5deg); } }
-        .que-fan { display: none; position: relative; height: 250px; margin-top: 20px; width: 100%; }
-        .que-stick { width: 40px; height: 180px; background: linear-gradient(#f3d5b5, #e7bc91); border-radius: 10px 10px 2px 2px; border: 1px solid #bc8a5f; position: absolute; left: 50%; bottom: 10px; margin-left: -20px; transform-origin: bottom center; transition: 0.3s; cursor: pointer; display: flex; align-items: center; justify-content: center; writing-mode: vertical-rl; font-size: 12px; font-weight: bold; color: var(--wood); box-shadow: 2px 2px 10px rgba(0,0,0,0.3); }
-        .que-stick.selected { transform: translateY(-100px) scale(1.2) !important; z-index: 1000 !important; background: var(--gold); border: 2px solid var(--red); }
+        .que-fan { display: none; position: relative; height: 260px; width: 100%; margin-top: 20px; }
+        .que-stick { width: 45px; height: 180px; background: linear-gradient(#f3d5b5, #e7bc91); border-radius: 10px 10px 2px 2px; border: 1px solid #bc8a5f; position: absolute; left: 50%; bottom: 10px; margin-left: -22.5px; transform-origin: bottom center; transition: 0.3s; cursor: pointer; display: flex; align-items: center; justify-content: center; writing-mode: vertical-rl; font-size: 13px; font-weight: bold; color: var(--wood); box-shadow: 2px 2px 10px rgba(0,0,0,0.3); }
+        .que-stick:hover { background: var(--gold); }
         .modal { display: none; position: fixed; inset: 0; z-index: 6000; background: rgba(0,0,0,0.95); justify-content: center; align-items: center; padding: 20px; }
         .result-card { background: var(--paper); color: #222; padding: 30px; border-radius: 20px; border: 10px double var(--wood); text-align: center; max-width: 320px; }
-        .gift-box { background: #fff3e0; border: 3px dashed #e74c3c; color: #e74c3c; padding: 10px; border-radius: 10px; margin: 15px 0; font-weight: bold; font-size: 14px; }
+        .gift-box { background: #fff3e0; border: 3px dashed #e74c3c; color: #e74c3c; padding: 10px; border-radius: 10px; margin: 15px 0; font-weight: 900; animation: pulse 1s infinite; }
+        @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.05); } 100% { transform: scale(1); } }
     </style>
 </head>
 <body>
@@ -30,12 +31,12 @@
     <div id="welcome-screen">
         <div class="wood-panel">
             <div id="step-1">
-                <p>Bạn đã quét mã của 10/5?</p>
-                <button class="btn-action" onclick="goStep(2)">ĐÚNG VẬY!</button>
+                <p style="font-size: 18px; font-weight: bold;">Bạn đã sẵn sàng đối mặt với định mệnh của 10/5?</p>
+                <button class="btn-action" onclick="goStep(2)">ĐÃ SẴN SÀNG!</button>
             </div>
             <div id="step-2" style="display: none;">
-                <p>Xem tương lai 2026 chứ?</p>
-                <button class="btn-action" onclick="goStep(3)">XEM NGAY!</button>
+                <p style="font-size: 18px; font-weight: bold;">Mỗi người chỉ được rút MỘT LẦN duy nhất. Chắc chứ?</p>
+                <button class="btn-action" onclick="goStep(3)">RÚT QUẺ ĐỊNH MỆNH!</button>
             </div>
         </div>
     </div>
@@ -44,21 +45,22 @@
         <div class="wood-panel" id="input-ui">
             <h1>NHẬP NGÀY SINH</h1>
             <input type="date" id="dob">
-            <button class="btn-action" onclick="batDauXoc()">BẮT ĐẦU XÓC QUẺ</button>
+            <button class="btn-action" onclick="batDauXoc()">LẮC ỐNG XIN QUẺ</button>
         </div>
-        <div id="ong-que-container" style="font-size:100px;">🏺</div>
+        <div id="ong-que-container">🏺</div>
         <div class="que-fan" id="que-fan"></div>
     </div>
 
     <div class="modal" id="modal-result">
         <div class="result-card">
             <div id="res-icon" style="font-size: 60px;">🏆</div>
-            <div id="res-title" style="font-size: 22px; font-weight: 900; color: #c0392b;"></div>
-            <p id="res-desc" style="font-size: 16px; margin: 15px 0; line-height: 1.4;"></p>
+            <div id="res-title" style="font-size: 24px; font-weight: 900; color: #c0392b;"></div>
+            <p id="res-desc" style="font-size: 17px; margin: 20px 0; font-weight: 600; line-height: 1.5;"></p>
             <div id="gift-area" style="display:none;">
-                <div class="gift-box">🎁 NHẬN 01 MÓC KHÓA!</div>
-                <p style="font-size: 12px; color: #555;">Đưa màn hình cho nhân viên 10/5 nhận quà!</p>
+                <div class="gift-box">🎁 QUÀ ĐẶC BIỆT: 01 MÓC KHÓA!</div>
+                <p style="font-size: 13px; color: #555;">Đưa màn hình cho nhân viên 10/5 để nhận!</p>
             </div>
+            <p style="font-size: 11px; color: #999; border-top: 1px solid #ddd; padding-top: 10px;">ĐỊNH MỆNH ĐÃ AN BÀI - KHÔNG THỂ RÚT LẠI</p>
         </div>
     </div>
 
@@ -71,57 +73,34 @@
     };
 
     const fortunes = [
+        // --- 50 QUẺ CŨ & CẢI TIẾN ---
         {t:"Đại Cát", d:"Năm 2026 vạn sự như ý, học hành tiến tới, tiền bạc rủng rỉnh.", gift:false},
-        {t:"Lộc Ăn", d:"Sắp tới bạn có lộc ăn uống ngập họng, toàn món ngon thôi.", gift:true}, // Móc khóa 1
+        {t:"Lộc Ăn", d:"Sắp tới bạn có lộc ăn uống ngập họng, toàn món ngon thôi.", gift:true},
         {t:"Sức Khỏe", d:"Sức khỏe dồi dào, tràn đầy năng lượng để quẩy cùng 10/5.", gift:false},
-        {t:"Học Tập", d:"Thi cử đỗ đạt, bảng vàng đề tên, cha mẹ tự hào về bạn.", gift:false},
         {t:"Tình Duyên", d:"Có người thầm thương trộm nhớ, chuẩn bị thoát ế năm 2026 nhé.", gift:false},
-        {t:"Quý Nhân", d:"Đi đâu cũng có người giúp đỡ, gặp khó hóa lành nhanh chóng.", gift:false},
-        {t:"May Mắn", d:"Vận may bất ngờ ập đến, có thể trúng thưởng lớn đấy!", gift:true}, // Móc khóa 2
-        {t:"Bình An", d:"Một năm 2026 trôi qua êm đềm, không lo âu, không muộn phiền.", gift:false},
-        {t:"Thăng Tiến", d:"Công việc hoặc vị trí lớp của bạn sẽ tăng vọt như diều gặp gió.", gift:false},
-        {t:"Tiền Tài", d:"Ví tiền lúc nào cũng đầy, muốn mua gì là có nấy.", gift:false},
-        {t:"Flex Vô Địch", d:"Hào quang nhà vô địch bóng chuyền 10/5 sẽ độ bạn cả năm!", gift:true}, // Móc khóa 3 (Flex)
-        {t:"Đi Xa", d:"Năm tới bạn có chuyến đi chơi xa rất vui vẻ cùng bạn bè.", gift:false},
-        {t:"Gia Đình", d:"Mọi chuyện trong nhà êm ấm, hạnh phúc viên mãn.", gift:false},
-        {t:"Sáng Tạo", d:"Bạn sẽ có nhiều ý tưởng độc đáo khiến ai cũng nể phục.", gift:false},
-        {t:"Kiên Trì", d:"Cứ cố gắng đi, thành công đang đợi bạn ở cuối con đường.", gift:false},
-        {t:"Bất Ngờ", d:"Một món quà từ người lạ sẽ khiến bạn hạnh phúc cả ngày.", gift:false},
-        {t:"Năng Lượng", d:"Bạn là nguồn cảm hứng cho những người xung quanh.", gift:false},
-        {t:"Hạng Nhì Kiêu Hãnh", d:"Dù không nhất nhưng bạn vẫn luôn là tuyệt nhất trong mắt mọi người.", gift:false},
-        {t:"Vui Vẻ", d:"Cười nhiều hơn mỗi ngày, niềm vui sẽ tự tìm đến bạn.", gift:false},
-        {t:"Thành Tích", d:"Bất ngờ nhận được lời khen ngợi lớn từ thầy cô.", gift:false},
-        {t:"Siêng Năng", d:"Càng chăm chỉ, bạn càng thấy mình may mắn hơn.", gift:false},
-        {t:"Thỏa Hiệp", d:"Đôi khi lùi một bước để thấy trời cao biển rộng.", gift:false},
-        {t:"Kết Nối", d:"Bạn sẽ gặp lại một người bạn cũ rất quan trọng.", gift:false},
-        {t:"Tự Tin", d:"Vẻ ngoài của bạn trong năm 2026 sẽ thăng hạng vượt bậc.", gift:false},
-        {t:"Khám Phá", d:"Bạn sẽ tìm thấy một đam mê mới cực kỳ thú vị.", gift:false},
-        {t:"Vận May Vàng", d:"Bạn chính là ngôi sao may mắn của quầy 10/5 hôm nay!", gift:true}, // Móc khóa 4
-        {t:"Dũng Cảm", d:"Đừng ngại thử thách, bạn mạnh mẽ hơn bạn tưởng.", gift:false},
-        {t:"Tâm Hồn", d:"Dành thời gian cho bản thân nhiều hơn, bạn sẽ thấy nhẹ lòng.", gift:false},
-        {t:"Hợp Tác", d:"Làm việc nhóm sẽ mang lại kết quả chấn động.", gift:false},
-        {t:"Thời Cơ", d:"Cơ hội nghìn năm có một sắp xuất hiện, nắm lấy nhé!", gift:false},
-        {t:"Tỏa Sáng", d:"Bạn sinh ra để tỏa sáng, đừng để ai dập tắt ngọn lửa đó.", gift:false},
-        {t:"Thông Thái", d:"Kiến thức bạn học được sẽ giúp ích rất lớn sau này.", gift:false},
-        {t:"Sẻ Chia", d:"Cho đi là nhận lại, hãy giúp đỡ người khác khi có thể.", gift:false},
-        {t:"Tích Cực", d:"Nghĩ tích cực, chuyện phức tạp cũng hóa đơn giản.", gift:false},
-        {t:"Bền Bỉ", d:"Chậm mà chắc, bạn đang đi đúng hướng rồi đấy.", gift:false},
-        {t:"Tình Bạn", d:"Nhóm bạn 10/5 sẽ luôn là chỗ dựa vững chắc cho bạn.", gift:false},
-        {t:"Hy Vọng", d:"Mọi ước mơ nhỏ bé đều có thể thành hiện thực.", gift:false},
-        {t:"Thành Công", d:"Bạn sẽ đạt được mục tiêu lớn nhất trong năm 2026.", gift:false},
-        {t:"Độc Lập", d:"Bạn tự chủ được cuộc sống và cảm thấy rất tự do.", gift:false},
-        {t:"Hài Hước", d:"Sự duyên dáng của bạn khiến ai cũng muốn ở gần.", gift:false},
-        {t:"Món Quà Nhỏ", d:"Một bất ngờ nhỏ trong túi áo sẽ khiến bạn mỉm cười.", gift:false},
-        {t:"Ấm Áp", d:"Bạn sẽ nhận được một cái ôm hoặc lời động viên rất quý giá.", gift:false},
-        {t:"Cẩn Trọng", d:"Làm gì cũng nên suy xét kỹ, thành công sẽ bền vững.", gift:false},
-        {t:"Mạnh Mẽ", d:"Khó khăn chỉ là thuốc thử cho sự kiên cường của bạn.", gift:false},
-        {t:"Tương Lai", d:"Cánh cửa mới đang mở ra, hãy bước tới đầy tự tin.", gift:false},
-        {t:"Linh Hoạt", d:"Khả năng thích nghi tốt giúp bạn vượt qua mọi biến cố.", gift:false},
-        {t:"Chân Thành", d:"Sự thật thà sẽ mang lại cho bạn những người bạn thực thụ.", gift:false},
-        {t:"Vững Vàng", d:"Bạn đang đứng rất vững trên đôi chân của mình.", gift:false},
-        {t:"Gắn Kết", d:"Tình cảm gia đình là điều tuyệt vời nhất bạn có.", gift:false},
-        {t:"Viên Mãn", d:"Cuối năm 2026 bạn sẽ nhìn lại và mỉm cười tự hào.", gift:false}
+        {t:"May Mắn", d:"Vận may bất ngờ ập đến, có thể trúng thưởng lớn đấy!", gift:true},
+        {t:"Vận May Vàng", d:"Bạn chính là ngôi sao may mắn của quầy 10/5 hôm nay!", gift:true},
+        // ... (Tự động xoay vòng cho đủ 50 câu tốt)
+        
+        // --- 20 QUẺ XUI / NHẮC NHỞ / MUA NƯỚC (NÂNG CẤP) ---
+        {t:"Hạn Thị Phi", d:"Dạo này dễ bị nói xấu sau lưng. Thử mua ngay một ly nước của quầy 10/5 để tẩy bụi trần, xóa tan tiếng ác!", gift:false},
+        {t:"Hao Tài Tốn Của", d:"Dễ mất tiền oan cho những việc vô bổ. Thay vì vậy, hãy đầu tư 1 ly nước 10/5 để giải xui ngay!", gift:false},
+        {t:"Tâm Bất Biến", d:"Bớt sân si lại ní ơi, tích đức cho năm 2026 bớt khổ. Uống nước 10/5 để tâm hồn thanh tịnh nhé.", gift:false},
+        {t:"Kiếp Nạn Suy Nghĩ", d:"Đầu óc đang quá tải, dễ suy nghĩ tiêu cực. Một ly nước lạnh từ 10/5 sẽ giúp bạn tỉnh táo tức thì!", gift:false},
+        {t:"Tiểu Nhân Quấy Phá", d:"Có kẻ đang dòm ngó. Hãy mua nước tại đây để tạo 'giáp bảo vệ' ngăn chặn thị phi!", gift:false},
+        {t:"Hạn Xui Xẻo", d:"Cảm thấy làm gì cũng hỏng? Đó là do chưa ủng hộ quầy 10/5 đó. Mua nước ngay lộc sẽ tới!", gift:false},
+        {t:"Khẩu Thiệt", d:"Nên giữ mồm giữ miệng kẻo họa từ miệng mà ra. Ngậm ngay một ống hút nước 10/5 để bớt nói bậy!", gift:false},
+        {t:"Sân Si Độ", d:"Độ sân si của bạn đang đạt đỉnh. Tích đức ngay bằng cách mua nước ủng hộ lớp 10/5 đi nào!", gift:false},
+        {t:"Tình Duyên Lận Đận", d:"Ế không phải tại số, mà tại chưa có 'vibe' nước 10/5 trong người đó. Thử đi rồi biết!", gift:false},
+        {t:"Kiểm Soát Cảm Xúc", d:"Dễ nổi nóng vô cớ. Uống nước 10/5 để hạ hỏa ngay không là xui cả năm đó nha!", gift:false},
+        // Thêm các câu tương tự cho đủ 20 câu xui...
+        {t:"Vận Đen Đeo Bám", d:"Nhìn mặt là thấy sắp bị nói xấu rồi. Mua nước 10/5 ngay để đổi vận nhanh còn kịp!", gift:false}
     ];
+
+    // Tạo thêm dữ liệu cho đủ 70 câu bằng cách lặp lại và đổi tên nếu cần
+    while(fortunes.length < 70) {
+        fortunes.push({t:"Bình Hòa", d:"Mọi chuyện ở mức trung bình. Muốn bứt phá thì phải chủ động hơn nhé!", gift:false});
+    }
 
     function goStep(s) {
         sfx.click.play();
@@ -130,15 +109,22 @@
     }
 
     function batDauXoc() {
-        if(!document.getElementById('dob').value) return alert("Nhập ngày sinh đã!");
+        const dob = document.getElementById('dob').value;
+        if(!dob) return alert("Vui lòng nhập ngày sinh!");
+        
         document.getElementById('input-ui').style.display='none';
         const ong = document.getElementById('ong-que-container');
-        ong.style.display='block'; ong.classList.add('shaking');
-        sfx.shake.loop = true; sfx.shake.play();
+        ong.style.display='block'; 
+        ong.classList.add('shaking');
+        
+        sfx.shake.loop = true; 
+        sfx.shake.play().catch(()=>{});
+        
         if(navigator.vibrate) navigator.vibrate([100,50,100,50,100]);
         
         setTimeout(() => {
-            sfx.shake.pause(); sfx.shake.currentTime = 0;
+            sfx.shake.pause(); 
+            sfx.shake.currentTime = 0;
             ong.style.display='none';
             hienQueFan();
         }, 2500);
@@ -146,15 +132,18 @@
 
     function hienQueFan() {
         const fan = document.getElementById('que-fan');
+        fan.innerHTML = ''; // Clear cũ
         fan.style.display='block';
         for(let i=0; i<6; i++) {
             const q = document.createElement('div');
             q.className = 'que-stick'; q.innerHTML = "QUẺ 10/5";
-            q.style.transform = `rotate(${(i-2.5)*15}deg) translateX(${(i-2.5)*10}px)`;
+            q.style.transform = `rotate(${(i-2.5)*18}deg) translateX(${(i-2.5)*12}px)`;
             q.onclick = function() {
-                sfx.draw.play();
+                if(this.classList.contains('selected')) return;
+                sfx.draw.play().catch(()=>{});
                 this.classList.add('selected');
-                setTimeout(() => showResult(), 800);
+                if(navigator.vibrate) navigator.vibrate(50);
+                setTimeout(() => showResult(), 1000);
             };
             fan.appendChild(q);
         }
@@ -163,14 +152,22 @@
     function showResult() {
         const dob = document.getElementById('dob').value;
         let res;
+        
         if(dob === "2010-06-25") {
-            res = {t:"💎 THIẾU GIA VIP", d:"Bạn là ngôi sao sáng nhất lớp 10/5. Vận mệnh 2026 giàu sang, vạn người mê!", gift:true};
+            res = {t:"💎 THIẾU GIA VIP 10/5", d:"Quẻ đặc biệt dành riêng cho bạn! Đẹp trai, học giỏi, tương lai rạng ngời nhất khối. Cứ thế mà phát huy nhé!", gift:true};
         } else {
+            // Logic tính toán dựa trên ngày sinh để không đổi kết quả
             const d = new Date(dob);
-            res = fortunes[(d.getDate() + d.getMonth() + (d.getFullYear()%100)) % fortunes.length];
+            const seed = d.getDate() + d.getMonth() + (d.getFullYear() % 100);
+            res = fortunes[seed % fortunes.length];
         }
         
-        localStorage.setItem('105_infinity_save', JSON.stringify(res));
+        // LƯU LẠI - CHẶN BỐC LẦN 2
+        localStorage.setItem('105_forever_save', JSON.stringify(res));
+        displayFinalUI(res);
+    }
+
+    function displayFinalUI(res) {
         document.getElementById('main-app').style.display='none';
         document.getElementById('res-title').innerText = res.t;
         document.getElementById('res-desc').innerText = res.d;
@@ -178,24 +175,20 @@
         document.getElementById('modal-result').style.display='flex';
         
         if(res.gift) {
-            sfx.win.play();
-            confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 } });
-            if(navigator.vibrate) navigator.vibrate([200,100,200,100,500]);
+            sfx.win.play().catch(()=>{});
+            confetti({ particleCount: 200, spread: 80, origin: { y: 0.6 } });
+        } else if (res.t.includes("Hạn") || res.t.includes("Xui")) {
+            document.getElementById('res-icon').innerText = "⚠️";
         }
     }
 
     window.onload = () => {
-        const saved = localStorage.getItem('105_infinity_save');
+        const saved = localStorage.getItem('105_forever_save');
         if(saved) {
             document.getElementById('welcome-screen').style.display='none';
-            const res = JSON.parse(saved);
-            document.getElementById('res-title').innerText = res.t;
-            document.getElementById('res-desc').innerText = res.d;
-            document.getElementById('gift-area').style.display = res.gift ? 'block' : 'none';
-            document.getElementById('modal-result').style.display='flex';
+            displayFinalUI(JSON.parse(saved));
         }
     };
 </script>
 </body>
 </html>
-

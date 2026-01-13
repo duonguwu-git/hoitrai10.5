@@ -3,34 +3,43 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>10/5 - LINH QUẺ ĐỊNH MỆNH</title>
+    <title>10/5 - LINH QUẺ CHẤN ĐỘNG</title>
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     <style>
-        :root { --gold: #ffd700; --red: #a4161a; --paper: #fff5e6; --wood: #8b5e34; }
-        body { margin: 0; background: #0a0500; font-family: 'Segoe UI', sans-serif; display: flex; justify-content: center; align-items: center; min-height: 100vh; overflow: hidden; color: white; touch-action: manipulation; }
-        .container { width: 90%; max-width: 400px; text-align: center; }
-        .wood-panel { background: var(--paper); color: #333; padding: 30px 20px; border-radius: 25px; border: 8px double var(--wood); box-shadow: 0 0 50px rgba(0,0,0,0.9); }
+        :root { --gold: #ffd700; --red: #e74c3c; --paper: #fff5e6; --wood: #5d4037; }
+        body { margin: 0; background: #000; font-family: 'Segoe UI', sans-serif; display: flex; justify-content: center; align-items: center; min-height: 100vh; overflow: hidden; color: white; touch-action: manipulation; }
         
-        #welcome-screen { position: fixed; inset: 0; background: #1a0f00; z-index: 3000; display: flex; justify-content: center; align-items: center; padding: 20px; }
-        h1 { color: var(--red); font-size: 24px; text-transform: uppercase; margin: 10px 0; }
-        input[type="date"] { width: 85%; padding: 15px; border-radius: 15px; border: 3px solid var(--wood); font-size: 18px; font-weight: bold; margin: 20px 0; background: #fff; text-align: center; color: #000; -webkit-appearance: none; }
+        /* Màn hình khởi đầu */
+        #welcome-screen { position: fixed; inset: 0; background: radial-gradient(circle, #420000, #000); z-index: 5000; display: flex; justify-content: center; align-items: center; padding: 20px; }
+        .wood-panel { background: var(--paper); color: #333; padding: 30px 20px; border-radius: 25px; border: 8px double var(--wood); box-shadow: 0 0 50px rgba(0,0,0,0.9); text-align: center; width: 100%; max-width: 350px; }
         
-        .btn-gieo { background: var(--red); color: white; border: none; padding: 20px; border-radius: 50px; font-weight: bold; width: 100%; cursor: pointer; font-size: 18px; box-shadow: 0 6px 0 #330000; position: relative; z-index: 100; }
-        .btn-gieo:active { transform: translateY(3px); box-shadow: 0 2px 0 #330000; }
+        h1 { color: #c0392b; font-size: 22px; text-transform: uppercase; margin-bottom: 20px; font-weight: 900; }
+        input[type="date"] { width: 90%; padding: 15px; border-radius: 12px; border: 3px solid var(--wood); font-size: 20px; font-weight: bold; margin-bottom: 20px; text-align: center; }
         
-        #ong-que { font-size: 100px; display: none; margin: 20px 0; }
-        .shaking { animation: shake 0.15s infinite; }
-        @keyframes shake { 0% { transform: rotate(5deg); } 50% { transform: rotate(-5deg); } 100% { transform: rotate(5deg); } }
-        
-        #draw-zone { display: none; margin-top: 20px; }
-        .visual-que { width: 60px; height: 180px; background: linear-gradient(to bottom, #f3d5b5, #e7bc91); border-radius: 10px; border: 2px solid #bc8a5f; margin: 0 auto 20px; display: flex; align-items: center; justify-content: center; writing-mode: vertical-rl; font-weight: bold; color: var(--wood); box-shadow: 0 5px 15px rgba(0,0,0,0.5); }
+        .btn-action { background: linear-gradient(to bottom, #e74c3c, #c0392b); color: white; border: none; padding: 20px; border-radius: 50px; font-weight: bold; width: 100%; cursor: pointer; font-size: 18px; box-shadow: 0 6px 0 #7b241c; text-transform: uppercase; }
+        .btn-action:active { transform: translateY(3px); box-shadow: 0 2px 0 #7b241c; }
 
-        .modal { display: none; position: fixed; inset: 0; z-index: 4000; background: rgba(0,0,0,0.95); justify-content: center; align-items: center; padding: 20px; }
-        .result-card { background: var(--paper); color: #222; padding: 30px 20px; border-radius: 20px; border: 10px double var(--wood); text-align: center; width: 100%; max-width: 320px; }
-        .instruction-box { background: #fff3e0; border: 2px dashed var(--red); color: var(--red); padding: 12px; border-radius: 12px; margin: 15px 0; font-weight: bold; }
+        /* Hiệu ứng Ống Quẻ */
+        #ong-que-container { display: none; margin: 20px auto; position: relative; width: 150px; height: 200px; }
+        #ong-que-img { font-size: 120px; display: block; filter: drop-shadow(0 0 20px var(--gold)); }
+        .shaking { animation: shake 0.1s infinite; }
+        @keyframes shake { 0% { transform: translate(3px, 3px) rotate(5deg); } 50% { transform: translate(-3px, -3px) rotate(-5deg); } 100% { transform: translate(3px, 3px) rotate(5deg); } }
+
+        /* Khu vực rút thẻ */
+        #draw-zone { display: none; text-align: center; width: 100%; }
+        .visual-card { width: 80px; height: 250px; background: linear-gradient(45deg, #f3d5b5, #e7bc91); border-radius: 10px; border: 3px solid var(--wood); margin: 0 auto 30px; position: relative; display: flex; align-items: center; justify-content: center; box-shadow: 0 10px 30px rgba(0,0,0,0.8); }
+        .visual-card::after { content: "10/5"; writing-mode: vertical-rl; font-weight: 900; color: rgba(0,0,0,0.2); font-size: 30px; }
+
+        /* Modal kết quả */
+        .modal { display: none; position: fixed; inset: 0; z-index: 6000; background: rgba(0,0,0,0.95); justify-content: center; align-items: center; padding: 20px; }
+        .result-card { background: var(--paper); color: #222; padding: 30px 20px; border-radius: 20px; border: 10px double var(--wood); text-align: center; width: 100%; max-width: 320px; transform: scale(0); transition: 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        .result-card.show { transform: scale(1); }
         
+        .gift-box { background: #fff3e0; border: 3px dashed #e74c3c; color: #e74c3c; padding: 15px; border-radius: 15px; margin: 20px 0; font-weight: 900; animation: pulse 1s infinite; }
+        @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.05); } 100% { transform: scale(1); } }
+
         .rain { position: fixed; inset: 0; pointer-events: none; display: none; z-index: 1001; }
-        .drop { position: absolute; background: #fff; width: 1px; height: 15px; opacity: 0.3; animation: fall 0.4s linear infinite; }
+        .drop { position: absolute; background: #fff; width: 2px; height: 20px; opacity: 0.5; animation: fall 0.3s linear infinite; }
         @keyframes fall { to { transform: translateY(100vh); } }
     </style>
 </head>
@@ -39,145 +48,168 @@
     <div id="welcome-screen">
         <div class="wood-panel">
             <div id="step-1">
-                <p style="font-size: 18px; font-weight: bold;">Bạn đã quét mã coi bói của 10/5?</p>
-                <button class="btn-gieo" onclick="nextStep(1)">ĐÚNG VẬY!</button>
+                <p style="font-size: 20px; font-weight: bold;">Bạn đã quét mã coi bói của lớp 10/5?</p>
+                <button class="btn-action" onclick="goStep(2)">ĐÚNG VẬY!</button>
             </div>
             <div id="step-2" style="display: none;">
-                <p style="font-size: 18px; font-weight: bold;">Sẵn sàng xem tương lai 2026?</p>
-                <button class="btn-gieo" onclick="nextStep(2)">XEM NGAY!</button>
+                <p style="font-size: 20px; font-weight: bold;">Bạn có muốn xem tương lai 2026 của mình không?</p>
+                <button class="btn-action" onclick="goStep(3)">XEM NGAY!</button>
             </div>
         </div>
     </div>
 
     <div class="rain" id="rain-effect"></div>
 
-    <div class="container" id="app" style="display: none;">
-        <div class="wood-panel" id="input-zone">
+    <div class="container" id="main-app" style="display: none;">
+        <div class="wood-panel" id="input-ui">
             <h1>NHẬP NGÀY SINH</h1>
             <input type="date" id="dob">
-            <button class="btn-gieo" onclick="startShake()">XIN QUẺ LINH ỨNG</button>
+            <button class="btn-action" onclick="batDauXoc()">XIN QUẺ LINH ỨNG</button>
         </div>
 
-        <div id="ong-que">🏺</div>
+        <div id="ong-que-container">
+            <div id="ong-que-img">🏺</div>
+        </div>
 
         <div id="draw-zone">
-            <div class="visual-que">QUẺ ĐỊNH MỆNH</div>
-            <button class="btn-gieo" style="background: #d4a017;" onclick="pickFortune()">CHẠM ĐỂ RÚT QUẺ</button>
+            <div class="visual-card" id="card-to-pull"></div>
+            <button class="btn-action" style="background: #f1c40f; color: #000;" onclick="rutThe()">CHẠM ĐỂ RÚT THẺ</button>
         </div>
     </div>
 
-    <div class="modal" id="ui-modal">
-        <div class="result-card">
-            <div id="status-icon" style="font-size: 60px;">🏆</div>
-            <div id="res-title" style="font-size: 24px; font-weight: 900; color: var(--red); text-transform: uppercase;"></div>
-            <p id="res-desc" style="font-weight: 600; font-size: 17px; color: #333; margin: 15px 0;"></p>
-            <div id="ui-gift" style="display:none;">
-                <div class="instruction-box">🎁 NHẬN 01 MÓC KHÓA!</div>
-                <p style="font-size: 13px; color: #d32f2f;">Hãy đưa màn hình này cho nhân viên quầy 10/5 để nhận quà!</p>
+    <div class="modal" id="modal-result">
+        <div class="result-card" id="card-inner">
+            <div id="res-icon" style="font-size: 80px;">🏆</div>
+            <div id="res-title" style="font-size: 26px; font-weight: 900; color: #c0392b; margin-top: 10px;"></div>
+            <p id="res-desc" style="font-weight: 600; font-size: 18px; color: #333; margin: 20px 0;"></p>
+            
+            <div id="gift-area" style="display:none;">
+                <div class="gift-box">🎁 NHẬN 01 MÓC KHÓA!</div>
+                <p style="font-size: 14px; font-weight: bold; color: #555;">Đưa màn hình này cho nhân viên quầy 10/5 để lấy quà ngay!</p>
             </div>
         </div>
     </div>
 
 <script>
-    const sounds = {
+    // Hệ thống âm thanh chất lượng cao
+    const sfx = {
         click: new Audio('https://assets.mixkit.co/active_storage/sfx/2568/2568-preview.mp3'),
-        shake: new Audio('https://www.soundjay.com/misc/sounds/shaking-ice-in-cup-1.mp3'),
-        draw: new Audio('https://assets.mixkit.co/active_storage/sfx/2571/2571-preview.mp3'),
-        win: new Audio('https://assets.mixkit.co/active_storage/sfx/1435/1435-preview.mp3'),
+        shake: new Audio('https://www.soundjay.com/misc/sounds/shaking-ice-in-cup-1.mp3'), // Tiếng xóc lộc cộc
+        draw: new Audio('https://assets.mixkit.co/active_storage/sfx/2571/2571-preview.mp3'), // Tiếng soạt cực hay
+        win: new Audio('https://assets.mixkit.co/active_storage/sfx/2019/2019-preview.mp3'), // Tiếng pháo hoa/thắng lớn
         sad: new Audio('https://www.myinstants.com/media/sounds/ytpmv-sad-violin.mp3')
     };
 
-    const fortunes = [
-        {t: "Vận May Kiến Tạo", d: "Thời tới cản không kịp! Bạn tỏa sáng như dàn siêu sao 10/5 lúc nâng cúp vô địch!", gift: true, type: 'good'},
-        {t: "Tỷ Phú Tương Lai", d: "Năm 2026 tiền vào như nước, bạn giàu tới mức đủ sức tài trợ nước uống cho cả lớp!", gift: false, type: 'good'},
-        {t: "Quý Nhân Phù Trợ", d: "Sắp có người bao ăn chơi xả láng. Mau theo chân các hot boy 10/5 để hóng lộc!", gift: true, type: 'good'},
-        {t: "Hào Quang Rực Rỡ", d: "Đi đâu cũng có người nhìn. Flex nhẹ cái thần thái của nhà vô địch 10/5 đi nào!", gift: false, type: 'good'},
-        {t: "Tình Duyên Chớm Nở", d: "2026 sẽ có người thầm thương trộm nhớ. Coi chừng trúng tiếng sét ái tình tại đây!", gift: false, type: 'good'},
-        {t: "Lộc Lá Đầy Kho", d: "Lộc ăn uống ngập tràn. Bạn sắp được ăn ngon đến mức quên lối về luôn!", gift: true, type: 'good'},
-        {t: "Bậc Thầy Flexing", d: "Bạn sắp có một màn trình diễn để đời khiến ai cũng phải ngước nhìn. Đỉnh của chóp!", gift: false, type: 'good'},
-        {t: "Cẩn Trọng Khẩu Thiệt", d: "Bớt sân si lại. Hãy giữ cái đầu lạnh như cách 10/5 giành hạng Nhì bóng đá!", gift: false, type: 'bad'},
-        {t: "Tu Tâm Dưỡng Tính", d: "Năm tới cần tịnh tâm. Đẹp trai xinh gái nhưng cái nết phải ngoan như 10/5 nhé!", gift: false, type: 'bad'}
-    ];
-
-    function nextStep(step) {
-        sounds.click.play().catch(()=>{});
-        if(step === 1) {
+    function goStep(s) {
+        sfx.click.play().catch(()=>{});
+        if(navigator.vibrate) navigator.vibrate(50);
+        if(s === 2) {
             document.getElementById('step-1').style.display = 'none';
             document.getElementById('step-2').style.display = 'block';
         } else {
             document.getElementById('welcome-screen').style.display = 'none';
-            document.getElementById('app').style.display = 'block';
+            document.getElementById('main-app').style.display = 'block';
         }
     }
 
-    function startShake() {
-        const dob = document.getElementById('dob').value;
-        if(!dob) return alert("Ní ơi, nhập ngày sinh mới linh!");
+    function batDauXoc() {
+        if(!document.getElementById('dob').value) return alert("Nhập ngày sinh đã ní ơi!");
         
-        sounds.shake.play().catch(()=>{});
-        document.getElementById('input-zone').style.display = 'none';
-        const ong = document.getElementById('ong-que');
+        sfx.shake.play();
+        sfx.shake.loop = true; // Lặp lại tiếng xóc
+        if(navigator.vibrate) navigator.vibrate([100, 50, 100, 50, 100]);
+
+        document.getElementById('input-ui').style.display = 'none';
+        const ong = document.getElementById('ong-que-container');
         ong.style.display = 'block';
         ong.classList.add('shaking');
-        
+
         setTimeout(() => {
+            sfx.shake.pause();
+            sfx.shake.currentTime = 0;
             ong.style.display = 'none';
             document.getElementById('draw-zone').style.display = 'block';
-        }, 2000);
+        }, 2500);
     }
 
-    function pickFortune() {
-        sounds.draw.play().catch(()=>{});
-        const dobInput = document.getElementById('dob').value;
+    function rutThe() {
+        sfx.draw.play();
+        if(navigator.vibrate) navigator.vibrate(100);
+        
+        const card = document.getElementById('card-to-pull');
+        card.style.transition = "1s";
+        card.style.transform = "translateY(-500px) rotate(20deg)";
+        card.style.opacity = "0";
+
+        setTimeout(tinhToanKetQua, 800);
+    }
+
+    function tinhToanKetQua() {
+        const dob = document.getElementById('dob').value;
         let res;
 
-        if (dobInput === "2010-06-25") {
-            res = {t: "💎 THIẾU GIA VIP 2010", d: "Chào Trùm Cuối! Bạn là ngôi sao sáng nhất 10/5. Vận mệnh 2026 giàu sang tột đỉnh!", gift: true, type: 'good'};
+        // XỬ LÝ VIP 25/06/2010
+        if(dob === "2010-06-25") {
+            res = {t: "💎 THIẾU GIA VIP 10/5", d: "Bạn là linh hồn của lớp! Vận mệnh 2026 rực rỡ, tiền bạc rủng rỉnh, đẹp trai nhất khối!", gift: true, type: 'good'};
         } else {
-            const d = new Date(dobInput);
-            const val = d.getDate() + d.getMonth();
-            res = fortunes[val % fortunes.length];
+            const fortunes = [
+                {t: "Vô Địch Hội Trại", d: "Vận may của bạn đang cực đỉnh! Giống như cách 10/5 nâng cúp vô địch bóng chuyền vậy!", gift: true, type: 'good'},
+                {t: "Tỷ Phú Tương Lai", d: "2026 bạn giàu nứt đố đổ tường, đủ bao cả lớp 10/5 đi du lịch luôn!", gift: false, type: 'good'},
+                {t: "Quý Nhân Phù Trợ", d: "Sắp có người bao ăn chơi. Nhớ bám sát dàn vận động viên 10/5 để hưởng lộc!", gift: true, type: 'good'},
+                {t: "Flexing Thần Thánh", d: "Hào quang của bạn tỏa sáng đến mức ai cũng phải ngước nhìn. Đúng chất MVP!", gift: false, type: 'good'},
+                {t: "Kiếp Nạn Cột Sống", d: "Bớt thức khuya cày game lại ní ơi, lo dưỡng sức mà còn ăn mừng vô địch với 10/5!", gift: false, type: 'bad'}
+            ];
+            const d = new Date(dob);
+            res = fortunes[(d.getDate() + d.getMonth()) % fortunes.length];
         }
 
-        localStorage.setItem('user_fortune_105_final_v3', JSON.stringify(res));
-        renderResult(res);
+        localStorage.setItem('105_final_save', JSON.stringify(res));
+        showFinal(res);
     }
 
-    function renderResult(res) {
-        document.getElementById('app').style.display = 'none';
-        document.getElementById('ui-modal').style.display = 'flex';
+    function showFinal(res) {
+        document.getElementById('main-app').style.display = 'none';
+        const modal = document.getElementById('modal-result');
+        const card = document.getElementById('card-inner');
+        
         document.getElementById('res-title').innerText = res.t;
         document.getElementById('res-desc').innerText = res.d;
-        document.getElementById('ui-gift').style.display = res.gift ? 'block' : 'none';
+        document.getElementById('gift-area').style.display = res.gift ? 'block' : 'none';
         
+        modal.style.display = 'flex';
+        setTimeout(() => card.classList.add('show'), 100);
+
         if(res.type === 'good') {
-            sounds.win.play().catch(()=>{});
-            document.getElementById('status-icon').innerText = "🏆";
-            confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 } });
+            sfx.win.play();
+            // RUNG MẠNH
+            if(navigator.vibrate) navigator.vibrate([200, 100, 200, 100, 500]);
+            // PHÁO HOA TÙM LUM
+            var end = Date.now() + (3 * 1000);
+            (function frame() {
+                confetti({ particleCount: 5, angle: 60, spread: 55, origin: { x: 0 } });
+                confetti({ particleCount: 5, angle: 120, spread: 55, origin: { x: 1 } });
+                if (Date.now() < end) requestAnimationFrame(frame);
+            }());
         } else {
-            sounds.sad.play().catch(()=>{});
-            document.getElementById('status-icon').innerText = "⛈️";
-            createRain();
+            sfx.sad.play();
+            document.getElementById('res-icon').innerText = "⛈️";
+            document.getElementById('rain-effect').style.display = 'block';
+            for(let i=0; i<30; i++) {
+                let d = document.createElement('div'); d.className = 'drop';
+                d.style.left = Math.random()*100+'vw'; d.style.animationDuration = Math.random()*0.5+0.2+'s';
+                document.getElementById('rain-effect').appendChild(d);
+            }
         }
     }
 
-    function createRain() {
-        const rain = document.getElementById('rain-effect');
-        rain.style.display = 'block';
-        for(let i=0; i<30; i++) {
-            let d = document.createElement('div'); d.className = 'drop';
-            d.style.left = Math.random()*100+'vw'; d.style.animationDuration = Math.random()*0.5+0.3+'s';
-            rain.appendChild(d);
-        }
-    }
-
-    window.onload = function() {
-        const saved = localStorage.getItem('user_fortune_105_final_v3');
-        if (saved) {
+    window.onload = () => {
+        const saved = localStorage.getItem('105_final_save');
+        if(saved) {
             document.getElementById('welcome-screen').style.display = 'none';
-            renderResult(JSON.parse(saved));
+            showFinal(JSON.parse(saved));
         }
     };
 </script>
 </body>
 </html>
+

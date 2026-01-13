@@ -1,28 +1,42 @@
-const fortunes = [
-    {t: "VẬN MAY KIẾN TẠO", d: "Thời tới cản không kịp! Vận may của bạn đang 'on top' giống như đội tuyển Bóng Chuyền Nam 10/5 vừa hốt chức Vô Địch vậy đó!", gift: true, type: 'good'},
-    {t: "CẨN TRỌNG KHẨU THIỆT", d: "Quẻ này hơi 'xu'. Hãy bớt sân si và bình tĩnh lại như cách đội bóng đá 10/5 giữ hạng Nhì đầy kiêu hãnh nhé!", gift: false, type: 'bad'},
-    {t: "GIÀU NGANG NGƯỢC", d: "Tiền vào như nước. Năm tới bạn sẽ giàu tới mức đủ sức tài trợ nước uống cho dàn siêu sao bóng chuyền lớp mình luôn!", gift: false, type: 'good'},
-    {t: "TU TÂM DƯỠNG TÍNH", d: "Bớt soi mói lại ní ơi. Hãy tập trung tu dưỡng để đẹp trai xinh gái như dàn vận động viên của 10/5 đi nào!", gift: false, type: 'bad'},
-    {t: "BẬC THẦY FLEXING", d: "Bạn sắp có một thành tích chấn động, y hệt cái cúp Vô Địch Bóng Chuyền đang nằm trong tay lớp 10/5 nè!", gift: false, type: 'good'},
-    {t: "KIẾP NẠN CỘT SỐNG", d: "Thức khuya ít thôi kẻo cột sống kêu cứu. Phải khỏe mạnh thì mới đi cổ vũ bóng chuyền, bóng đá cho lớp được chứ!", gift: false, type: 'bad'}
-];
+// Link âm thanh online
+const sndShake = new Audio('https://www.soundjay.com/misc/sounds/shaking-ice-in-cup-1.mp3');
+const sndWin = new Audio('https://assets.mixkit.co/active_storage/sfx/2013/2013-preview.mp3'); // Tiếng chuông thắng
+const sndSad = new Audio('https://www.myinstants.com/media/sounds/thud.mp3'); // Tiếng "bùm" buồn
 
-// Hàm lấy kết quả dựa trên ngày sinh (cố định)
-function getFortune(dob) {
-    let sum = 0;
-    for (let char of dob.replace(/-/g, "")) sum += parseInt(char);
-    return fortunes[sum % fortunes.length];
+function startAction() {
+    const dob = document.getElementById('dob').value;
+    if(!dob) return alert("Nhập ngày sinh đã ní ơi!");
+
+    // PHÁT ÂM THANH LẮC (Phải đặt ở đây để trình duyệt cho phép)
+    sndShake.play().catch(e => console.log("Chưa phát được nhạc: ", e));
+
+    document.getElementById('ui-input').style.display = 'none';
+    const ong = document.getElementById('ong-que');
+    ong.style.display = 'block';
+    ong.classList.add('shaking');
+
+    setTimeout(() => {
+        ong.style.display = 'none';
+        showFan();
+    }, 2000);
 }
 
-// Hàm hiển thị (Bạn cần đảm bảo file HTML cũ có các ID: resTitle, resDesc)
-function showResult(res) {
-    document.getElementById('resTitle').innerText = res.t;
-    document.getElementById('resDesc').innerText = res.d;
+function renderResult(res) {
+    const modal = document.getElementById('ui-modal');
     
     if(res.type === 'good') {
+        // Phát âm thanh chiến thắng
+        sndWin.play();
+        // Hiệu ứng pháo hoa
         confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 } });
     } else {
+        // Phát âm thanh buồn
+        sndSad.play();
         document.body.classList.add('rain-active');
-        alert("Quẻ này hơi buồn, hãy sống tích cực hơn nhé!");
     }
+
+    document.getElementById('res-title').innerText = res.t;
+    document.getElementById('res-desc').innerText = res.d;
+    modal.style.display = 'flex';
 }
+
